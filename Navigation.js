@@ -18,22 +18,22 @@ import TakeTestScreen from './screens/TakeaTestOne';
 import TakeTestScreenTwo from './screens/TakeTestTwo';
 import SeeResultsScreen from './screens/SeeResults';
 
+const Stack = createStackNavigator();
 const AuthStack = createStackNavigator();
 const VerificationStack = createStackNavigator();
-const MainStack = createStackNavigator();
 
-function AuthStackScreen() {
+function AuthStackNavigator() {
   return (
-    <AuthStack.Navigator initialRouteName="SignIn">
+    <AuthStack.Navigator>
       <AuthStack.Screen name="SignIn" component={SignInScreen} />
       <AuthStack.Screen name="SignUp" component={SignUpScreen} />
     </AuthStack.Navigator>
   );
 }
 
-function VerificationStackScreen() {
+function VerificationStackNavigator() {
   return (
-    <VerificationStack.Navigator initialRouteName="IdPhotos">
+    <VerificationStack.Navigator>
       <VerificationStack.Screen name="IdPhotos" component={IdPhotosScreen} />
       <VerificationStack.Screen name="Selfie" component={SelfieScreen} />
       <VerificationStack.Screen name="FaceRecognition" component={FaceRecognitionScreen} />
@@ -45,34 +45,24 @@ function VerificationStackScreen() {
   );
 }
 
-function MainStackScreen() {
+function AppNavigator() {
   return (
-    <MainStack.Navigator initialRouteName="Home">
-      <MainStack.Screen name="Home" component={HomeScreen} />
-      <MainStack.Screen name="InformationHub" component={InformationHubScreen} />
-      <MainStack.Screen name="SignIn" component={SignInScreen} />
-      <MainStack.Screen name="SignUp" component={SignUpScreen} />
-      <MainStack.Screen name="IdPhotos" component={IdPhotosScreen} />
-      <MainStack.Screen name="Selfie" component={SelfieScreen} />
-      <MainStack.Screen name="FaceRecognition" component={FaceRecognitionScreen} />
-      <MainStack.Screen name="Fingerprint" component={FingerprintScreen} />
-      <MainStack.Screen name="BiometricVerification" component={BiometricVerificationScreen} />
-      <MainStack.Screen name="AccountInformation" component={AccountInformationScreen} />
-      <MainStack.Screen name="ParentalConsent" component={ParentalConsentScreen} />
-      <MainStack.Screen name="FaceRecognitionSingIn" component={FaceRecognitionSignInScreen} />
-      <MainStack.Screen name="TakeaTestOne" component={TakeTestScreen} />
-      <MainStack.Screen name="TakeTestTwo" component={TakeTestScreenTwo} />
-      <MainStack.Screen name="SeeResults" component={SeeResultsScreen} />
-    </MainStack.Navigator>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="InformationHub" component={InformationHubScreen} />
+        <Stack.Screen name="TakeTestTwo" component={TakeTestScreenTwo} />
+        <Stack.Screen name="SeeResults" component={SeeResultsScreen} />
+        <Stack.Screen name="Auth" component={AuthStackNavigator} />
+        <Stack.Screen name="Verification" component={VerificationStackNavigator} />
+        <Stack.Screen name="FaceRecognitionSignIn" component={FaceRecognitionSignInScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-export default function AppNavigator() {
-  return (
-    <NavigationContainer>
-      <MainStackScreen />
-    </NavigationContainer>
-  );
+export default AppNavigator;
+
 }
 
 export default AppNavigator;
