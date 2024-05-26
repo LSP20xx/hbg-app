@@ -27,6 +27,7 @@ function AuthStackNavigator() {
     <AuthStack.Navigator>
       <AuthStack.Screen name="SignIn" component={SignInScreen} />
       <AuthStack.Screen name="SignUp" component={SignUpScreen} />
+      <AuthStack.Screen name="FaceRecognitionSignIn" component={FaceRecognitionSignInScreen} />
     </AuthStack.Navigator>
   );
 }
@@ -48,14 +49,13 @@ function VerificationStackNavigator() {
 function AppNavigator() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
+      <Stack.Navigator initialRouteName="Auth">
+        <Stack.Screen name="Auth" component={AuthStackNavigator} />
+        <Stack.Screen name="Verification" component={VerificationStackNavigator} />
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="InformationHub" component={InformationHubScreen} />
         <Stack.Screen name="TakeTestTwo" component={TakeTestScreenTwo} />
         <Stack.Screen name="SeeResults" component={SeeResultsScreen} />
-        <Stack.Screen name="Auth" component={AuthStackNavigator} />
-        <Stack.Screen name="Verification" component={VerificationStackNavigator} />
-        <Stack.Screen name="FaceRecognitionSignIn" component={FaceRecognitionSignInScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -63,6 +63,3 @@ function AppNavigator() {
 
 export default AppNavigator;
 
-}
-
-export default AppNavigator;
