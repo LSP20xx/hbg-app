@@ -8,15 +8,15 @@ import {
   StyleSheet,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import BackButton from '../components/BackButton';
 
 const SeeResultsScreen = () => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.header}>
-          <TouchableOpacity style={styles.backButton}>
-            <Ionicons name="arrow-back" size={24} color="black" />
-          </TouchableOpacity>
+          <BackButton />
+
           <Text style={styles.title}>See results</Text>
         </View>
         <Text style={styles.stepText}>Step 3/3: Find the test results</Text>

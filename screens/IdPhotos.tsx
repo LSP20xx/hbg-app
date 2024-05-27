@@ -7,14 +7,14 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
+import BackButton from '../components/BackButton';
 
 const IdPhotosScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <TouchableOpacity style={styles.backButton}>
-          <Text style={styles.backButtonText}>←</Text>
-        </TouchableOpacity>
+        <BackButton />
+
         <Text style={styles.title}>Verify your identity</Text>
         <Text style={styles.subtitle}>Step 2/4: Take photos of your ID</Text>
         <Text style={styles.description}>

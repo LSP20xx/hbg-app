@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -8,47 +8,56 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
+import BackButton from '../components/BackButton';
+import CustomTextInput from '../components/CustomTextInput';
+import Button from '../components/Button';
+import ScreenWrapper from '../components/ScreenWrapper';
 
 const ParentalConsentScreen = () => {
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <ScrollView contentContainerStyle={styles.container}>
-        <TouchableOpacity style={styles.backButton}>
-          <Text style={styles.backButtonText}>←</Text>
-        </TouchableOpacity>
+    <ScreenWrapper>
+      <View style={{ flexDirection: 'row' }}>
+        <BackButton />
+
         <Text style={styles.title}>Parental Consent</Text>
-        <Text style={styles.subtitle}>
-          To continue, we need parental consent to create the account
-        </Text>
+      </View>
 
-        <TextInput style={styles.input} placeholder="Parent's First Name" />
-        <TextInput style={styles.input} placeholder="Parent's Last Name" />
-        <TextInput style={styles.input} placeholder="Email" />
-        <Text style={styles.helperText}>
-          This will be the email used to access your account and receive results
-        </Text>
-        <View style={styles.passwordContainer}>
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            secureTextEntry
-          />
-          <Text style={styles.eyeIcon}>👁️</Text>
-        </View>
-        <Text style={styles.helperText}>
-          At least 8 characters, including 1 uppercase, 1 lowercase, and 1
-          number
-        </Text>
+      <Text style={styles.subtitle}>
+        To continue, we need parental consent to create the account
+      </Text>
 
-        <TouchableOpacity style={styles.uploadButton}>
-          <Text style={styles.uploadButtonText}>+ UPLOAD CONSENT</Text>
-        </TouchableOpacity>
+      <CustomTextInput placeholder="Email" style={{ marginVertical: 8 }} />
 
-        <TouchableOpacity style={styles.confirmButton}>
-          <Text style={styles.confirmButtonText}>Confirm</Text>
-        </TouchableOpacity>
-      </ScrollView>
-    </SafeAreaView>
+      <Text style={styles.helperText}>
+        This will be the email used to access your account and receive results
+      </Text>
+      <CustomTextInput
+        placeholder="Password"
+        placeholderTextColor="#999"
+        secureTextEntry={!isPasswordVisible}
+        iconName={isPasswordVisible ? 'eye-off-outline' : 'eye-outline'}
+        onIconPress={() => setIsPasswordVisible(!isPasswordVisible)}
+      />
+      <Text style={styles.helperText}>
+        At least 8 characters, including 1 uppercase, 1 lowercase, and 1 number
+      </Text>
+      {/* <CustomTextInput
+          placeholder="Parent's Last Name"
+          style={{ marginVertical: 8 }}
+        />
+        <CustomTextInput
+          placeholder="Parent's First Name"
+          style={{ marginVertical: 8 }}
+        />
+      */}
+
+      <TouchableOpacity style={styles.uploadButton}>
+        <Text style={styles.uploadButtonText}>+ UPLOAD CONSENT</Text>
+      </TouchableOpacity>
+
+      <Button text="Confirm" onPress={() => {}} color="#66D19E" />
+    </ScreenWrapper>
   );
 };
 

@@ -7,14 +7,14 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
+import BackButton from '../components/BackButton';
 
 const InformationHubScreen = () => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.container}>
-        <TouchableOpacity style={styles.backButton}>
-          <Text style={styles.backButtonText}>{'<'}</Text>
-        </TouchableOpacity>
+        <BackButton />
+
         <Text style={styles.header}>Information hub</Text>
         <TouchableOpacity style={[styles.button, styles.resultsButton]}>
           <Text style={styles.buttonText}>Results</Text>

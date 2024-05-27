@@ -8,26 +8,27 @@ import {
 } from 'react-native';
 import CustomTextInput from '../components/CustomTextInput';
 import Button from '../components/Button';
+import BackButton from '../components/BackButton';
+import ScreenWrapper from '../components/ScreenWrapper';
 
 const AccountInformationScreen = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <TouchableOpacity style={styles.backButton}>
-        <Text style={styles.backButtonText}>{'<'}</Text>
-      </TouchableOpacity>
-      <Text style={styles.title}>Verify your identity</Text>
+    <ScreenWrapper>
+      <View
+        style={{
+          flexDirection: 'row',
+        }}
+      >
+        <BackButton />
+
+        <Text style={styles.title}>Verify your identity</Text>
+      </View>
       <Text style={styles.subtitle}>
         Step 1/4: Complete your account information
       </Text>
 
-      <CustomTextInput placeholder="First name" style={{ marginVertical: 8 }} />
-      <CustomTextInput placeholder="Last name" style={{ marginVertical: 8 }} />
-      <CustomTextInput
-        placeholder="Date of Birth (YYYY-MM-DD)"
-        style={{ marginVertical: 8 }}
-      />
       <CustomTextInput
         placeholder="Email"
         keyboardType="email-address"
@@ -44,19 +45,27 @@ const AccountInformationScreen = () => {
           onIconPress={() => setIsPasswordVisible(!isPasswordVisible)}
         />
       </View>
+      {/* 
+      <CustomTextInput placeholder="First name" style={{ marginVertical: 8 }} />
+      <CustomTextInput placeholder="Last name" style={{ marginVertical: 8 }} /> */}
+      <CustomTextInput
+        placeholder="Date of Birth (YYYY-MM-DD)"
+        style={{ marginVertical: 8 }}
+      />
+
       <Text style={styles.infoText}>
         At least 8 characters, including 1 uppercase, 1 lowercase, and 1 number
       </Text>
 
       <Button text="Confirm" onPress={() => {}} color="#66D19E" />
-    </SafeAreaView>
+    </ScreenWrapper>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    padding: 32,
     backgroundColor: '#F5F5F5',
   },
   backButton: {
@@ -68,7 +77,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 8,
   },
   subtitle: {
     fontSize: 16,

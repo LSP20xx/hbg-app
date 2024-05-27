@@ -7,14 +7,13 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
+import BackButton from '../components/BackButton';
 
 const TakeTestScreen = () => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.container}>
-        <TouchableOpacity style={styles.backButton}>
-          <Text style={styles.backButtonText}>{'<'}</Text>
-        </TouchableOpacity>
+        <BackButton />
         <Text style={styles.title}>Take a test</Text>
         <Text style={styles.step}>Step 1/3: Take a photo with test</Text>
         <Text style={styles.instructions}>

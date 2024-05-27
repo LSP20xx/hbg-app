@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
+import BackButton from '../components/BackButton';
 
 type RootStackParamList = {
   FaceRecognitionSignIn: { onVerified: () => void };
@@ -31,9 +32,8 @@ const FaceRecognitionSignInScreen = () => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.scrollView}>
-        <TouchableOpacity style={styles.backButton}>
-          <Text style={styles.backButtonText}>{'<'}</Text>
-        </TouchableOpacity>
+        <BackButton />
+
         <Text style={styles.title}>Verify your identity</Text>
         <Text style={styles.subtitle}>Complete your biometric method</Text>
         <Text style={styles.description}>
