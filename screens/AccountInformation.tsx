@@ -22,10 +22,17 @@ const AccountInformationScreen = () => {
         Step 1/4: Complete your account information
       </Text>
 
-      <CustomTextInput placeholder="First name" />
-      <CustomTextInput placeholder="Last name" />
-      <CustomTextInput placeholder="Date of Birth (YYYY-MM-DD)" />
-      <CustomTextInput placeholder="Email" keyboardType="email-address" />
+      <CustomTextInput placeholder="First name" style={{ marginVertical: 8 }} />
+      <CustomTextInput placeholder="Last name" style={{ marginVertical: 8 }} />
+      <CustomTextInput
+        placeholder="Date of Birth (YYYY-MM-DD)"
+        style={{ marginVertical: 8 }}
+      />
+      <CustomTextInput
+        placeholder="Email"
+        keyboardType="email-address"
+        style={{ marginVertical: 8 }}
+      />
       <Text style={styles.infoText}>
         This will be the email used to access your account and receive results
       </Text>
