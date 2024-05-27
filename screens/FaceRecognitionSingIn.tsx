@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -7,8 +7,27 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
+import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
+
+type RootStackParamList = {
+  FaceRecognitionSignIn: { onVerified: () => void };
+};
+
+type FaceRecognitionSignInRouteProp = RouteProp<
+  RootStackParamList,
+  'FaceRecognitionSignIn'
+>;
 
 const FaceRecognitionSignInScreen = () => {
+  const route = useRoute<FaceRecognitionSignInRouteProp>();
+  const { onVerified } = route.params;
+
+  useEffect(() => {
+    if (onVerified) {
+      onVerified();
+    }
+  }, [onVerified]);
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.scrollView}>

@@ -24,24 +24,42 @@ const VerificationStack = createStackNavigator();
 
 function AuthStackNavigator() {
   return (
-    <AuthStack.Navigator>
+    <AuthStack.Navigator screenOptions={{ headerShown: false }}>
       <AuthStack.Screen name="SignIn" component={SignInScreen} />
       <AuthStack.Screen name="SignUp" component={SignUpScreen} />
-      <AuthStack.Screen name="FaceRecognitionSignIn" component={FaceRecognitionSignInScreen} />
+      <AuthStack.Screen
+        name="FaceRecognitionSignIn"
+        component={FaceRecognitionSignInScreen}
+      />
     </AuthStack.Navigator>
   );
 }
 
 function VerificationStackNavigator() {
   return (
-    <VerificationStack.Navigator>
+    <VerificationStack.Navigator screenOptions={{ headerShown: false }}>
       <VerificationStack.Screen name="IdPhotos" component={IdPhotosScreen} />
       <VerificationStack.Screen name="Selfie" component={SelfieScreen} />
-      <VerificationStack.Screen name="FaceRecognition" component={FaceRecognitionScreen} />
-      <VerificationStack.Screen name="Fingerprint" component={FingerprintScreen} />
-      <VerificationStack.Screen name="BiometricVerification" component={BiometricVerificationScreen} />
-      <VerificationStack.Screen name="AccountInformation" component={AccountInformationScreen} />
-      <VerificationStack.Screen name="ParentalConsent" component={ParentalConsentScreen} />
+      <VerificationStack.Screen
+        name="FaceRecognition"
+        component={FaceRecognitionScreen}
+      />
+      <VerificationStack.Screen
+        name="Fingerprint"
+        component={FingerprintScreen}
+      />
+      <VerificationStack.Screen
+        name="BiometricVerification"
+        component={BiometricVerificationScreen}
+      />
+      <VerificationStack.Screen
+        name="AccountInformation"
+        component={AccountInformationScreen}
+      />
+      <VerificationStack.Screen
+        name="ParentalConsent"
+        component={ParentalConsentScreen}
+      />
     </VerificationStack.Navigator>
   );
 }
@@ -49,9 +67,15 @@ function VerificationStackNavigator() {
 function AppNavigator() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Auth">
+      <Stack.Navigator
+        initialRouteName="Auth"
+        screenOptions={{ headerShown: false }}
+      >
         <Stack.Screen name="Auth" component={AuthStackNavigator} />
-        <Stack.Screen name="Verification" component={VerificationStackNavigator} />
+        <Stack.Screen
+          name="Verification"
+          component={VerificationStackNavigator}
+        />
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="InformationHub" component={InformationHubScreen} />
         <Stack.Screen name="TakeTestTwo" component={TakeTestScreenTwo} />
@@ -62,4 +86,3 @@ function AppNavigator() {
 }
 
 export default AppNavigator;
-

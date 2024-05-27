@@ -1,3 +1,5 @@
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import React from 'react';
 import {
   SafeAreaView,
@@ -5,10 +7,36 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  TextInput,
 } from 'react-native';
 
+type RootStackParamList = {
+  Verification: { screen: string; params: { onVerified: () => void } };
+  Home: undefined;
+  SignIn: undefined;
+};
+
+type SignUpScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'Verification'
+>;
+
 const SignUpScreen = () => {
+  const navigation = useNavigation<SignUpScreenNavigationProp>();
+
+  const handleSignUp = () => {
+    navigation.navigate('Verification', {
+      screen: 'AccountInformation',
+      params: {
+        onVerified: () => {
+          navigation.navigate('Home');
+        },
+      },
+    });
+  };
+
+  const handleSignIn = () => {
+    navigation.navigate('SignIn');
+  };
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.logoContainer}>
@@ -27,10 +55,10 @@ const SignUpScreen = () => {
           </Text>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.signUpButton}>
+      <TouchableOpacity style={styles.signUpButton} onPress={handleSignUp}>
         <Text style={styles.signUpButtonText}>Sign up</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.signInLink}>
+      <TouchableOpacity style={styles.signInLink} onPress={handleSignIn}>
         <Text style={styles.signInText}>
           Already have an account? Sign in now
         </Text>

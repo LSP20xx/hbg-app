@@ -7,8 +7,35 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+
+type RootStackParamList = {
+  SignUp: undefined;
+  Home: undefined;
+  FaceRecognitionSignIn: { onVerified: () => void };
+};
+
+type SignInScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'SignUp'
+>;
 
 const SignInScreen = () => {
+  const navigation = useNavigation<SignInScreenNavigationProp>();
+
+  const handleSignUp = () => {
+    navigation.navigate('SignUp');
+  };
+
+  const handleSignIn = () => {
+    navigation.navigate('FaceRecognitionSignIn', {
+      onVerified: () => {
+        navigation.navigate('Home');
+      },
+    });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.logoContainer}>
@@ -35,12 +62,12 @@ const SignInScreen = () => {
           <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.signInButton}>
+      <TouchableOpacity style={styles.signInButton} onPress={handleSignIn}>
         <Text style={styles.signInButtonText}>Sign in</Text>
       </TouchableOpacity>
       <View style={styles.signUpContainer}>
         <Text>Don't have an account? </Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={handleSignUp}>
           <Text style={styles.signUpText}>Sign up now</Text>
         </TouchableOpacity>
       </View>
