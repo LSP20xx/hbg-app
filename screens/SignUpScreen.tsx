@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import React from 'react';
+import React, { useState } from 'react';
 import {
   SafeAreaView,
   View,
@@ -8,11 +8,15 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
+import ConfirmButton from '../components/Button';
+import Button from '../components/Button';
+import AuthLink from '../components/AuthLink';
 
 type RootStackParamList = {
   Verification: { screen: string; params: { onVerified: () => void } };
   Home: undefined;
   SignIn: undefined;
+  ParentalConsent: undefined;
 };
 
 type SignUpScreenNavigationProp = StackNavigationProp<
@@ -22,47 +26,78 @@ type SignUpScreenNavigationProp = StackNavigationProp<
 
 const SignUpScreen = () => {
   const navigation = useNavigation<SignUpScreenNavigationProp>();
+  const [isUserAnAdult, setIsUserAnAdult] = useState<boolean | null>(null);
 
   const handleSignUp = () => {
-    navigation.navigate('Verification', {
-      screen: 'AccountInformation',
-      params: {
-        onVerified: () => {
-          navigation.navigate('Home');
+    if (isUserAnAdult === true) {
+      navigation.navigate('Verification', {
+        screen: 'AccountInformation',
+        params: {
+          onVerified: () => {
+            navigation.navigate('Home');
+          },
         },
-      },
-    });
+      });
+    } else if (isUserAnAdult === false) {
+      navigation.navigate('Verification', {
+        screen: 'ParentalConsent',
+        params: {
+          onVerified: () => {
+            navigation.navigate('Home');
+          },
+        },
+      });
+    } else {
+      alert('Please select an option');
+    }
   };
 
   const handleSignIn = () => {
     navigation.navigate('SignIn');
   };
+
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.logoContainer}>
-        <Text style={styles.logo}>LOGO</Text>
+      <View style={styles.innerContainer}>
+        <View style={styles.logoContainer}>
+          <Text style={styles.logo}>LOGO</Text>
+        </View>
+        <Text style={styles.question}>Are you 18 years or older?</Text>
+        <View style={styles.optionContainer}>
+          <TouchableOpacity
+            style={styles.option}
+            onPress={() => setIsUserAnAdult(true)}
+          >
+            <View
+              style={[
+                styles.radioButton,
+                isUserAnAdult === true && styles.radioButtonSelected,
+              ]}
+            />
+            <Text style={styles.optionText}>I am 18 years or older</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.option}
+            onPress={() => setIsUserAnAdult(false)}
+          >
+            <View
+              style={[
+                styles.radioButton,
+                isUserAnAdult === false && styles.radioButtonSelected,
+              ]}
+            />
+            <Text style={styles.optionText}>
+              I'm not 18 years old, but I will get my parents consent
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <Button text={'Sign up'} onPress={handleSignUp} color="#66D19E" />
+        <AuthLink
+          onPress={handleSignIn}
+          message="Already have an account?"
+          linkText="Sign in now"
+        />
       </View>
-      <Text style={styles.question}>Are you 18 years or older?</Text>
-      <View style={styles.optionContainer}>
-        <TouchableOpacity style={styles.option}>
-          <View style={styles.radioButtonSelected} />
-          <Text style={styles.optionText}>I am 18 years or older</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.option}>
-          <View style={styles.radioButton} />
-          <Text style={styles.optionText}>
-            I'm not 18 years old, but I will get my parents consent
-          </Text>
-        </TouchableOpacity>
-      </View>
-      <TouchableOpacity style={styles.signUpButton} onPress={handleSignUp}>
-        <Text style={styles.signUpButtonText}>Sign up</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.signInLink} onPress={handleSignIn}>
-        <Text style={styles.signInText}>
-          Already have an account? Sign in now
-        </Text>
-      </TouchableOpacity>
     </SafeAreaView>
   );
 };
@@ -70,12 +105,16 @@ const SignUpScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
     backgroundColor: '#F9F9F9',
   },
-  logoContainer: {
+  innerContainer: {
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 32,
+    paddingHorizontal: 16,
+  },
+  logoContainer: {
+    marginBottom: 80,
   },
   logo: {
     fontSize: 24,
@@ -84,9 +123,11 @@ const styles = StyleSheet.create({
   question: {
     fontSize: 16,
     marginBottom: 16,
+    textAlign: 'center',
   },
   optionContainer: {
-    marginBottom: 32,
+    width: '100%',
+    marginBottom: 20,
   },
   option: {
     flexDirection: 'row',
@@ -102,27 +143,10 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   radioButtonSelected: {
-    height: 20,
-    width: 20,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#000',
     backgroundColor: '#000',
-    marginRight: 8,
   },
   optionText: {
     fontSize: 14,
-  },
-  signUpButton: {
-    backgroundColor: '#A3E4D7',
-    paddingVertical: 12,
-    borderRadius: 8,
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  signUpButtonText: {
-    fontSize: 16,
-    color: '#FFF',
   },
   signInLink: {
     alignItems: 'center',

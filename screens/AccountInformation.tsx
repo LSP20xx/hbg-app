@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   SafeAreaView,
   View,
   Text,
-  TextInput,
-  TouchableOpacity,
   StyleSheet,
+  TouchableOpacity,
 } from 'react-native';
+import Button from '../components/Button';
+import CustomTextInput from '../components/CustomTextInput';
 
 const AccountInformationScreen = () => {
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity style={styles.backButton}>
@@ -19,37 +22,26 @@ const AccountInformationScreen = () => {
         Step 1/4: Complete your account information
       </Text>
 
-      <TextInput style={styles.input} placeholder="First name" />
-      <TextInput style={styles.input} placeholder="Last name" />
-      <TextInput
-        style={styles.input}
-        placeholder="Date of Birth (YYYY-MM-DD)"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        keyboardType="email-address"
-      />
+      <CustomTextInput placeholder="First name" />
+      <CustomTextInput placeholder="Last name" />
+      <CustomTextInput placeholder="Date of Birth (YYYY-MM-DD)" />
+      <CustomTextInput placeholder="Email" keyboardType="email-address" />
       <Text style={styles.infoText}>
         This will be the email used to access your account and receive results
       </Text>
       <View style={styles.passwordContainer}>
-        <TextInput
-          style={styles.input}
+        <CustomTextInput
           placeholder="Password"
-          secureTextEntry={true}
+          secureTextEntry={!isPasswordVisible}
+          iconName={isPasswordVisible ? 'eye-off-outline' : 'eye-outline'}
+          onIconPress={() => setIsPasswordVisible(!isPasswordVisible)}
         />
-        <TouchableOpacity style={styles.eyeIcon}>
-          <Text>👁️</Text>
-        </TouchableOpacity>
       </View>
       <Text style={styles.infoText}>
         At least 8 characters, including 1 uppercase, 1 lowercase, and 1 number
       </Text>
 
-      <TouchableOpacity style={styles.confirmButton}>
-        <Text style={styles.confirmButtonText}>Confirm</Text>
-      </TouchableOpacity>
+      <Button text="Confirm" onPress={() => {}} color="#66D19E" />
     </SafeAreaView>
   );
 };
@@ -93,22 +85,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 16,
-  },
-  eyeIcon: {
-    position: 'absolute',
-    right: 16,
-  },
-  confirmButton: {
-    height: 48,
-    borderRadius: 8,
-    backgroundColor: '#66D19E',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  confirmButtonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: 'bold',
   },
 });
 
