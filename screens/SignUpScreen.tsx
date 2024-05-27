@@ -8,9 +8,9 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
-import ConfirmButton from '../components/Button';
 import Button from '../components/Button';
 import AuthLink from '../components/AuthLink';
+import api from '../api';
 
 type RootStackParamList = {
   Verification: { screen: string; params: { onVerified: () => void } };
@@ -26,29 +26,50 @@ type SignUpScreenNavigationProp = StackNavigationProp<
 
 const SignUpScreen = () => {
   const navigation = useNavigation<SignUpScreenNavigationProp>();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [dateOfBirth, setDateOfBirth] = useState('');
+  const [gender, setGender] = useState('');
+  const [accountNumber, setAccountNumber] = useState('');
   const [isUserAnAdult, setIsUserAnAdult] = useState<boolean | null>(null);
 
-  const handleSignUp = () => {
-    if (isUserAnAdult === true) {
-      navigation.navigate('Verification', {
-        screen: 'AccountInformation',
-        params: {
-          onVerified: () => {
-            navigation.navigate('Home');
+  const handleSignUp = async () => {
+    try {
+      // const response = await api.post('/auth/register');
+      // if (response.status === 200) {
+      if (isUserAnAdult === true) {
+        navigation.navigate('Verification', {
+          screen: 'AccountInformation',
+          params: {
+            onVerified: () => {
+              navigation.navigate('Home');
+            },
           },
-        },
-      });
-    } else if (isUserAnAdult === false) {
-      navigation.navigate('Verification', {
-        screen: 'ParentalConsent',
-        params: {
-          onVerified: () => {
-            navigation.navigate('Home');
+        });
+      } else if (isUserAnAdult === false) {
+        navigation.navigate('Verification', {
+          screen: 'ParentalConsent',
+          params: {
+            onVerified: () => {
+              navigation.navigate('Home');
+            },
           },
-        },
-      });
-    } else {
-      alert('Please select an option');
+        });
+      }
+      // } else {
+      //   alert('Registration failed');
+      // }
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error('Registration error:', error.message);
+        alert('Registration error');
+      } else {
+        console.error('Registration error:', error);
+        alert('Registration error');
+      }
     }
   };
 

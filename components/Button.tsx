@@ -4,7 +4,6 @@ import {
   Text,
   StyleSheet,
   GestureResponderEvent,
-  ViewStyle,
 } from 'react-native';
 
 interface ButtonProps {

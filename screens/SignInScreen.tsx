@@ -3,16 +3,15 @@ import {
   SafeAreaView,
   View,
   Text,
-  TextInput,
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { Ionicons } from '@expo/vector-icons';
 import Button from '../components/Button';
 import AuthLink from '../components/AuthLink';
 import CustomTextInput from '../components/CustomTextInput';
+import api from '../api';
 
 type RootStackParamList = {
   SignUp: undefined;
@@ -27,18 +26,35 @@ type SignInScreenNavigationProp = StackNavigationProp<
 
 const SignInScreen = () => {
   const navigation = useNavigation<SignInScreenNavigationProp>();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const handleSignUp = () => {
     navigation.navigate('SignUp');
   };
 
-  const handleSignIn = () => {
-    navigation.navigate('FaceRecognitionSignIn', {
-      onVerified: () => {
-        navigation.navigate('Home');
-      },
-    });
+  const handleSignIn = async () => {
+    try {
+      const response = await api.post('/auth/login', { username, password });
+      if (response.status === 200) {
+        navigation.navigate('FaceRecognitionSignIn', {
+          onVerified: () => {
+            navigation.navigate('Home');
+          },
+        });
+      } else {
+        alert('Login failed');
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error('Registration error:', error.message);
+        alert('Registration error');
+      } else {
+        console.error('Registration error:', error);
+        alert('Registration error');
+      }
+    }
   };
 
   return (

@@ -6,8 +6,8 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
-import Button from '../components/Button';
 import CustomTextInput from '../components/CustomTextInput';
+import Button from '../components/Button';
 
 const AccountInformationScreen = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
