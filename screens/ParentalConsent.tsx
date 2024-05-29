@@ -12,17 +12,13 @@ import BackButton from '../components/BackButton';
 import CustomTextInput from '../components/CustomTextInput';
 import Button from '../components/Button';
 import ScreenWrapper from '../components/ScreenWrapper';
+import HeaderWithBackButton from '../components/HeaderWithBackButton';
 
 const ParentalConsentScreen = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   return (
     <ScreenWrapper>
-      <View style={{ flexDirection: 'row' }}>
-        <BackButton />
-
-        <Text style={styles.title}>Parental Consent</Text>
-      </View>
-
+      <HeaderWithBackButton title="Parental Consent" />
       <Text style={styles.subtitle}>
         To continue, we need parental consent to create the account
       </Text>
@@ -84,8 +80,9 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 16,
-    textAlign: 'center',
+    textAlign: 'left',
     marginBottom: 16,
+    fontFamily: 'Urbanist-Bold',
   },
   input: {
     width: '100%',

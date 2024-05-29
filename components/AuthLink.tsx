@@ -39,6 +39,7 @@ const AuthLink: React.FC<AuthLinkProps> = ({
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
+    justifyContent: 'center',
   },
   text: {
     color: '#000',
