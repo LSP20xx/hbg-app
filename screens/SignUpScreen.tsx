@@ -1,15 +1,27 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { Formik } from 'formik';
+import { authValidationSchema } from '../schemas/authValidationSchema';
 import AuthScreenBase from '../components/AuthScreenBase';
 import Logo from '../components/Logo';
-import InputContainer from '../components/InputContainer';
+import AuthInputContainer from '../components/AuthInputContainer';
 import ActionButton from '../components/ActionButton';
 import AuthLinkComponent from '../components/AuthLinkComponent';
+import { Text } from 'react-native';
 import api from '../api';
+import CustomAlert from '../components/CustomAlert';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch } from '../redux/store';
+import {
+  selectAuthenticated,
+  selectIsInstitutional,
+} from '../redux/selectors/userSelectors';
+import { register } from '../redux/slices/userSlice';
 
 type RootStackParamList = {
   Verification: { screen: string; params: { onVerified: () => void } };
+  IdPhotos: undefined;
   Home: undefined;
   SignIn: undefined;
   ParentalConsent: undefined;
@@ -22,56 +34,82 @@ type SignUpScreenNavigationProp = StackNavigationProp<
 
 const SignUpScreen: React.FC = () => {
   const navigation = useNavigation<SignUpScreenNavigationProp>();
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [isUserAnAdult, setIsUserAnAdult] = useState<boolean | null>(null);
+  const dispatch = useDispatch<AppDispatch>();
+  const authenticated = useSelector(selectAuthenticated);
+  const isInstitutional = useSelector(selectIsInstitutional);
+  const [error, setError] = useState<string | null>(null);
 
-  // const handleSignUp = async () => {
-  //   try {
-  //     if (isUserAnAdult === true) {
-  //       navigation.navigate('Verification', {
-  //         screen: 'AccountInformation',
-  //         params: {
-  //           onVerified: () => {
-  //             navigation.navigate('Home');
-  //           },
-  //         },
-  //       });
-  //     } else if (isUserAnAdult === false) {
-  //       navigation.navigate('Verification', {
-  //         screen: 'ParentalConsent',
-  //         params: {
-  //           onVerified: () => {
-  //             navigation.navigate('Home');
-  //           },
-  //         },
-  //       });
-  //     }
-  //   } catch (error) {
-  //     if (error instanceof Error) {
-  //       console.error('Registration error:', error.message);
-  //       alert('Registration error');
-  //     } else {
-  //       console.error('Registration error:', error);
-  //       alert('Registration error');
-  //     }
-  //   }
-  // };
+  const handleSignUp = async (values: { email: string; password: string }) => {
+    console.log('Sending registration request with values:', values);
+    const resultAction = await dispatch(register(values));
+    console.log('Authenticated state:', authenticated);
 
-  // const handleSignIn = () => {
-  //   navigation.navigate('SignIn');
-  // };
+    if (register.fulfilled.match(resultAction)) {
+      if (isInstitutional) {
+        navigation.navigate('Home');
+      } else {
+        navigation.navigate('Verification', {
+          screen: 'IdPhotos',
+          params: {
+            onVerified: () => {
+              navigation.navigate('IdPhotos');
+            },
+          },
+        });
+      }
+    } else if (register.rejected.match(resultAction)) {
+      setError(resultAction.payload as string);
+    }
+  };
 
   return (
     <AuthScreenBase>
       <Logo />
-      <InputContainer isSignUp />
-      <ActionButton text="Sign up" onPress={() => {}} color="#66D19E" />
+      <Formik
+        initialValues={{ email: '', password: '' }}
+        validationSchema={authValidationSchema}
+        onSubmit={handleSignUp}
+      >
+        {({
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          values,
+          errors,
+          touched,
+        }) => (
+          <>
+            <AuthInputContainer
+              email={values.email}
+              setEmail={handleChange('email')}
+              password={values.password}
+              setPassword={handleChange('password')}
+              isSignUp
+            />
+            {touched.email && errors.email && <Text>{errors.email}</Text>}
+            {touched.password && errors.password && (
+              <Text>{errors.password}</Text>
+            )}
+            <ActionButton
+              text="Sign up"
+              onPress={handleSubmit as any}
+              color="#66D19E"
+            />
+          </>
+        )}
+      </Formik>
       <AuthLinkComponent
-        onPress={() => {}}
+        onPress={() => navigation.navigate('SignIn')}
         message="Already have an account?"
         linkText="Sign in now"
       />
+      {error && (
+        <CustomAlert
+          visible={!!error}
+          message={error}
+          onClose={() => setError(null)}
+        />
+      )}
     </AuthScreenBase>
   );
 };

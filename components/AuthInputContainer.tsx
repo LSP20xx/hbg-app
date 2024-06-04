@@ -1,12 +1,20 @@
 import React, { useState } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
-import CustomTextInput from '../components/CustomTextInput';
+import CustomTextInput from './CustomTextInput';
 
-interface InputContainerProps {
+interface AuthInputContainerProps {
+  email: string;
+  setEmail: (text: string) => void;
+  password: string;
+  setPassword: (text: string) => void;
   isSignUp?: boolean;
 }
 
-const InputContainer: React.FC<InputContainerProps> = ({
+const AuthInputContainer: React.FC<AuthInputContainerProps> = ({
+  email,
+  setEmail,
+  password,
+  setPassword,
   isSignUp = false,
 }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -17,6 +25,8 @@ const InputContainer: React.FC<InputContainerProps> = ({
         placeholder="Email"
         placeholderTextColor="#999"
         style={styles.input}
+        value={email}
+        onChangeText={setEmail}
       />
       <CustomTextInput
         placeholder="Password"
@@ -25,6 +35,8 @@ const InputContainer: React.FC<InputContainerProps> = ({
         style={styles.input}
         iconName={isPasswordVisible ? 'eye-off-outline' : 'eye-outline'}
         onIconPress={() => setIsPasswordVisible(!isPasswordVisible)}
+        value={password}
+        onChangeText={setPassword}
       />
       <TouchableOpacity style={styles.forgotPasswordContainer}>
         {!isSignUp && (
@@ -56,4 +68,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default InputContainer;
+export default AuthInputContainer;

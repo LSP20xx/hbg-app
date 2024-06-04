@@ -10,13 +10,20 @@ interface ButtonProps {
   onPress: (event: GestureResponderEvent) => void;
   text: string;
   color: string;
+  disabled?: boolean;
 }
 
-const Button: React.FC<ButtonProps> = ({ onPress, text, color }) => {
+const Button: React.FC<ButtonProps> = ({
+  onPress,
+  text,
+  color,
+  disabled = false,
+}) => {
   return (
     <TouchableOpacity
-      style={[styles.button, { backgroundColor: color }]}
-      onPress={onPress}
+      style={[styles.button, { backgroundColor: disabled ? '#d3d3d3' : color }]}
+      onPress={disabled ? undefined : onPress}
+      disabled={disabled}
     >
       <Text style={styles.buttonText}>{text}</Text>
     </TouchableOpacity>

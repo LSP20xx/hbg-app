@@ -11,76 +11,52 @@ import Button from '../components/Button';
 import BackButton from '../components/BackButton';
 import ScreenWrapper from '../components/ScreenWrapper';
 import HeaderWithBackButton from '../components/HeaderWithBackButton';
+import CustomDatePicker from '../components/CustomDatePicker';
+import { useNavigation } from '@react-navigation/native';
 
 const AccountInformationScreen = () => {
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const navigation = useNavigation();
+
+  const handleConfirmPress = () => {
+    navigation.navigate('Verification', {
+      screen: 'IdPhotos',
+      params: {
+        onVerified: () => {
+          navigation.navigate('Home');
+        },
+      },
+    });
+  };
 
   return (
-    <ScreenWrapper>
+    <ScreenWrapper onButtonPress={handleConfirmPress}>
       <HeaderWithBackButton title="Verify your identity" />
       <Text style={styles.subtitle}>
         Step 1/4: Complete your account information
       </Text>
 
       <CustomTextInput
-        placeholder="Email"
-        keyboardType="email-address"
-        style={{ marginVertical: 8 }}
+        placeholder="First Name"
+        placeholderTextColor="#999"
+        value={firstName}
+        style={{ marginVertical: 16 }}
+        onChangeText={setFirstName}
       />
-      <Text style={styles.infoText}>
-        This will be the email used to access your account and receive results
-      </Text>
-      <View style={styles.passwordContainer}>
-        <CustomTextInput
-          placeholder="Password"
-          secureTextEntry={!isPasswordVisible}
-          iconName={isPasswordVisible ? 'eye-off-outline' : 'eye-outline'}
-          onIconPress={() => setIsPasswordVisible(!isPasswordVisible)}
-        />
-      </View>
-      {/* 
-      <CustomTextInput placeholder="First name" style={{ marginVertical: 8 }} />
-      <CustomTextInput placeholder="Last name" style={{ marginVertical: 8 }} /> */}
       <CustomTextInput
-        placeholder="Date of Birth (YYYY-MM-DD)"
-        style={{ marginVertical: 8 }}
+        placeholder="Last Name"
+        placeholderTextColor="#999"
+        value={lastName}
+        style={{ marginVertical: 16 }}
+        onChangeText={setLastName}
       />
-
-      <Text style={styles.question}>Are you 18 years or older?</Text>
-      <View style={styles.optionContainer}>
-        <TouchableOpacity
-          style={styles.option}
-          onPress={() => setIsUserAnAdult(true)}
-        >
-          <View
-            style={[
-              styles.radioButton,
-              isUserAnAdult === true && styles.radioButtonSelected,
-            ]}
-          />
-          <Text style={styles.optionText}>I am 18 years or older</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.option}
-          onPress={() => setIsUserAnAdult(false)}
-        >
-          <View
-            style={[
-              styles.radioButton,
-              isUserAnAdult === false && styles.radioButtonSelected,
-            ]}
-          />
-          <Text style={styles.optionText}>
-            I'm not 18 years old, but I will get my parents consent
-          </Text>
-        </TouchableOpacity>
-      </View>
-
-      <Text style={styles.infoText}>
-        At least 8 characters, including 1 uppercase, 1 lowercase, and 1 number
-      </Text>
-
-      <Button text="Confirm" onPress={() => {}} color="#66D19E" />
+      <CustomDatePicker
+        placeholder="Date of Birth (YYYY-MM-DD)"
+        style={{ marginVertical: 16 }}
+        iconName="calendar"
+        iconColor="black"
+      />
     </ScreenWrapper>
   );
 };
