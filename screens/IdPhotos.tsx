@@ -82,19 +82,18 @@ const IdPhotosScreen = () => {
     });
   };
 
-  const isConfirmDisabled =
-    imageFrontLoading ||
-    imageBackLoading ||
-    !imageFrontSuccess ||
-    !imageBackSuccess ||
-    imageFrontError ||
-    imageBackError;
+  // const isConfirmDisabled =
+  //   imageFrontLoading ||
+  //   imageBackLoading ||
+  //   !imageFrontSuccess ||
+  //   !imageBackSuccess ||
+  //   imageFrontError ||
+  //   imageBackError;
 
   return (
     <ScreenWrapper
       headerTitle={'Verify your identity'}
       onButtonPress={handleConfirmPress}
-      buttonDisabled={isConfirmDisabled}
     >
       <Text style={styles.subtitle}>Step 1/3: Take photos of your ID</Text>
       <Text style={styles.description}>
