@@ -12,11 +12,11 @@ const HomeScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.logo}>ELOHEH</Text>
+        {/* <Text style={styles.logo}>ELOHEH</Text>
         <Image
           source={{ uri: 'https://placehold.co/32x32' }}
           style={styles.profileImage}
-        />
+        /> */}
       </View>
       <View style={styles.searchContainer}>
         <TextInput style={styles.searchInput} placeholder="Search" />
@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 16,
+    height: 20,
   },
   logo: {
     fontSize: 24,

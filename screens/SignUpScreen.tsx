@@ -50,11 +50,11 @@ const SignUpScreen: React.FC = () => {
       } else {
         navigation.navigate('Verification', {
           screen: 'IdPhotos',
-          params: {
-            onVerified: () => {
-              navigation.navigate('IdPhotos');
-            },
-          },
+          // params: {
+          //   onVerified: () => {
+          //     navigation.navigate('IdPhotos');
+          //   },
+          // },
         });
       }
     } else if (register.rejected.match(resultAction)) {
