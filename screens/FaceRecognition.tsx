@@ -62,6 +62,7 @@ const FaceRecognitionScreen: React.FC = () => {
       onButtonPress={handleConfirmPress}
       buttonDisabled={true}
       notShowingButton={false}
+      showBackButton={true}
     >
       <Text style={styles.subtitle}>Step 2/3: Face detection</Text>
       <Text style={styles.description}>

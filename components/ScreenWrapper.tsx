@@ -16,6 +16,7 @@ interface ScreenWrapperProps {
   buttonDisabled?: boolean;
   headerTitle: string;
   notShowingButton: boolean;
+  showBackButton: boolean;
 }
 
 const ScreenWrapper: React.FC<ScreenWrapperProps> = ({
@@ -25,10 +26,11 @@ const ScreenWrapper: React.FC<ScreenWrapperProps> = ({
   buttonDisabled = false,
   headerTitle = '',
   notShowingButton = true,
+  showBackButton = true,
 }) => {
   return (
     <SafeAreaView style={styles.safeArea}>
-      <HeaderWithBackButton title={headerTitle} />
+      <HeaderWithBackButton title={headerTitle} showBackButton={showBackButton} />
 
       <ScrollView
         contentContainerStyle={[styles.scrollContainer, contentContainerStyle]}

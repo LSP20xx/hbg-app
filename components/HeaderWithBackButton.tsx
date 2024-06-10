@@ -6,14 +6,16 @@ import BackButton from './BackButton';
 
 interface HeaderWithBackButtonProps {
   title: string;
+  showBackButton: boolean;
 }
 
 const HeaderWithBackButton: React.FC<HeaderWithBackButtonProps> = ({
   title,
+  showBackButton,
 }) => {
   return (
     <View style={styles.headerContainer}>
-      <BackButton />
+      {showBackButton && <BackButton />}
       <Text style={styles.title}>{title}</Text>
     </View>
   );

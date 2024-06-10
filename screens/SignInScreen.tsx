@@ -42,11 +42,7 @@ const SignInScreen: React.FC = () => {
     console.log('Authenticated state:', authenticated);
 
     if (login.fulfilled.match(resultAction)) {
-      navigation.navigate('FaceRecognitionSignIn', {
-        onVerified: () => {
-          navigation.navigate('InstitutionalHome');
-        },
-      });
+      navigation.navigate('InstitutionalHome');
     } else if (login.rejected.match(resultAction)) {
       setError(resultAction.payload as string);
     }

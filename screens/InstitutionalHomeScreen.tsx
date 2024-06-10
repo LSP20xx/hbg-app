@@ -2,21 +2,26 @@ import React from 'react';
 import {
   SafeAreaView,
   View,
-  Text,
   TextInput,
   TouchableOpacity,
   StyleSheet,
   ScrollView,
+  Text,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 const InstitutionalHomeScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+      <View style={styles.fixedHeader}>
         <View style={styles.header}>
-          {/* <Text style={styles.logo}>INSTITUTIONAL PORTAL</Text>
-          <Ionicons name="person-circle" size={32} color="#000" /> */}
+          <TouchableOpacity>
+            <Ionicons name="settings" size={32} color="#000" />
+          </TouchableOpacity>
+          <View style={styles.headerSpace}></View>
+          <TouchableOpacity>
+            <Ionicons name="notifications" size={32} color="#000" />
+          </TouchableOpacity>
         </View>
         <View style={styles.searchContainer}>
           <TextInput style={styles.searchInput} placeholder="Search" />
@@ -24,25 +29,53 @@ const InstitutionalHomeScreen = () => {
             <Ionicons name="search" size={16} color="#000" />
           </TouchableOpacity>
         </View>
-        {/* <Text style={styles.helpText}>Welcome to the Institutional Portal</Text> */}
+      </View>
+      <ScrollView contentContainerStyle={styles.scrollViewContainer}>
         <View style={styles.grid}>
           <TouchableOpacity style={[styles.card, styles.card1]}>
             <Ionicons name="person-add" size={64} color="#000" />
-            <Text style={styles.cardText}>Create New User</Text>
+            <Text style={[styles.cardText, {
+              color: "#000"
+            }]}>Create New Patient</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[styles.card, styles.card2]}>
-            <Ionicons name="document-text" size={64} color="#000" />
-            <Text style={styles.cardText}>Apply Test</Text>
+            <Ionicons name="document-text" size={64} color="#fff" />
+            <Text style={[styles.cardText, {
+              color: "#fff"
+            }]}>Apply Test</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[styles.card, styles.card3]}>
-            <Ionicons name="stats-chart" size={64} color="#000" />
-            <Text style={styles.cardText}>View Test Results</Text>
+            <Ionicons name="stats-chart" size={64} color="#fff" />
+            <Text style={[styles.cardText, {
+              color: "#fff"
+            }]}>View Test Results</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[styles.card, styles.card4]}>
             <Ionicons name="people" size={64} color="#000" />
-            <Text style={styles.cardText}>Manage Users</Text>
+            <Text style={[styles.cardText, {
+              color: "#000"
+            }]}>Manage Patients</Text>
           </TouchableOpacity>
         </View>
+
+        {/* News Section */}
+        <View style={styles.newsContainer}>
+          <Text style={styles.newsHeader}>News</Text>
+          <View style={styles.newsItem}>
+            <Text style={styles.newsTitle}>New Update Available</Text>
+            <Text style={styles.newsDescription}>Details about the new system update...</Text>
+          </View>
+          <View style={styles.newsItem}>
+            <Text style={styles.newsTitle}>Upcoming Event</Text>
+            <Text style={styles.newsDescription}>Information about the upcoming institutional event...</Text>
+          </View>
+          <View style={styles.newsItem}>
+            <Text style={styles.newsTitle}>New Feature Added</Text>
+            <Text style={styles.newsDescription}>Description of the new feature...</Text>
+          </View>
+        </View>
+        {/* End News Section */}
+        
       </ScrollView>
     </SafeAreaView>
   );
@@ -52,22 +85,26 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+  },
+  fixedHeader: {
+    backgroundColor: '#fff',
     padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
   },
   scrollViewContainer: {
     flexGrow: 1,
+    padding: 16,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 16,
-    height: 20,
+    marginTop: 20,
   },
-  logo: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    fontFamily: 'Urbanist-Bold',
+  headerSpace: {
+    flex: 1,
   },
   searchContainer: {
     flexDirection: 'row',
@@ -87,13 +124,6 @@ const styles = StyleSheet.create({
     padding: 8,
     backgroundColor: '#ccc',
     borderRadius: 8,
-  },
-  helpText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 16,
-    fontFamily: 'Urbanist-Bold',
-    textAlign: 'center',
   },
   grid: {
     flexDirection: 'row',
@@ -115,23 +145,45 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   card1: {
-    backgroundColor: '#FFD1D1',
+    backgroundColor: '#17FF8F',
   },
   card2: {
-    backgroundColor: '#D1FFD1',
+    backgroundColor: '#47A86A',
   },
   card3: {
-    backgroundColor: '#D1D1FF',
+    backgroundColor: '#39AA7D',
   },
   card4: {
-    backgroundColor: '#FFFFD1',
+    backgroundColor: '#82FFBF',
   },
   cardText: {
     fontSize: 18,
-    fontWeight: 'bold',
     marginTop: 12,
     textAlign: 'center',
     fontFamily: 'Urbanist-Bold',
+  },
+  newsContainer: {
+    marginTop: 16,
+    padding: 16,
+    backgroundColor: '#f8f9fa',
+    borderRadius: 8,
+  },
+  newsHeader: {
+    fontSize: 20,
+    marginBottom: 8,
+    fontFamily: 'Urbanist-Bold',
+  },
+  newsItem: {
+    marginBottom: 12,
+  },
+  newsTitle: {
+    fontSize: 16,
+    fontFamily: 'Urbanist-SemiBold',
+  },
+  newsDescription: {
+    fontSize: 14,
+    color: '#555',    
+    fontFamily: 'Urbanist-Medium',
   },
 });
 

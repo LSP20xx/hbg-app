@@ -18,6 +18,12 @@ export const selectIsInstitutional = createSelector(
   (userState) => userState.userData?.isInstitutional,
 );
 
+
+export const selectInstitutionName = createSelector(
+  selectUserState,
+  (userState) => userState.userData?.institutionName,
+);
+
 export const selectUserId = createSelector(
   selectUserState,
   (userState) => userState.userData?.userId,

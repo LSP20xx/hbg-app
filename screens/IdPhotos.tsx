@@ -94,6 +94,8 @@ const IdPhotosScreen = () => {
     <ScreenWrapper
       headerTitle={'Verify your identity'}
       onButtonPress={handleConfirmPress}
+      notShowingButton={true}
+      showBackButton={true}
     >
       <Text style={styles.subtitle}>Step 1/3: Take photos of your ID</Text>
       <Text style={styles.description}>
