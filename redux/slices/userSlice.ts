@@ -60,6 +60,7 @@ export const register = createAsyncThunk(
         headers: { 'Content-Type': 'application/json' },
       });
       const { data } = response;
+      console.log("data", data)
       await AsyncStorage.setItem('token', data.token);
       return data;
     } catch (error: any) {

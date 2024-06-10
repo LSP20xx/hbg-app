@@ -17,6 +17,7 @@ import FaceRecognitionSignInScreen from './screens/FaceRecognitionSingIn';
 import TakeTestScreen from './screens/TakeaTestOne';
 import TakeTestScreenTwo from './screens/TakeTestTwo';
 import SeeResultsScreen from './screens/SeeResults';
+import InstitutionalHomeScreen from './screens/InstitutionalHomeScreen';
 
 const Stack = createStackNavigator();
 const AuthStack = createStackNavigator();
@@ -77,6 +78,8 @@ function AppNavigator() {
           component={VerificationStackNavigator}
         />
         <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="InstitutionalHome" component={InstitutionalHomeScreen} />
+
         <Stack.Screen name="InformationHub" component={InformationHubScreen} />
         <Stack.Screen name="TakeTestTwo" component={TakeTestScreenTwo} />
         <Stack.Screen name="SeeResults" component={SeeResultsScreen} />

@@ -30,7 +30,7 @@ type RootStackParamList = {
 type SignUpScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
   'Verification'
->;
+>;  
 
 const SignUpScreen: React.FC = () => {
   const navigation = useNavigation<SignUpScreenNavigationProp>();
@@ -42,19 +42,14 @@ const SignUpScreen: React.FC = () => {
   const handleSignUp = async (values: { email: string; password: string }) => {
     console.log('Sending registration request with values:', values);
     const resultAction = await dispatch(register(values));
-    console.log('Authenticated state:', authenticated);
 
     if (register.fulfilled.match(resultAction)) {
-      if (isInstitutional) {
-        navigation.navigate('Home');
+      const userData = resultAction.payload?.userData;
+      if (userData?.isInstitution) {
+        navigation.navigate('InstitutionalHome');
       } else {
         navigation.navigate('Verification', {
           screen: 'IdPhotos',
-          // params: {
-          //   onVerified: () => {
-          //     navigation.navigate('IdPhotos');
-          //   },
-          // },
         });
       }
     } else if (register.rejected.match(resultAction)) {

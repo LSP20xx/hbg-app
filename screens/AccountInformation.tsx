@@ -24,7 +24,7 @@ const AccountInformationScreen = () => {
       screen: 'IdPhotos',
       params: {
         onVerified: () => {
-          navigation.navigate('Home');
+          navigation.navigate('InstitutionalHome');
         },
       },
     });

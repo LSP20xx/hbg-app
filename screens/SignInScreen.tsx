@@ -17,7 +17,7 @@ import { Text } from 'react-native';
 
 type RootStackParamList = {
   SignUp: undefined;
-  Home: undefined;
+  InstitutionalHome: undefined;
   FaceRecognitionSignIn: { onVerified: () => void };
 };
 
@@ -44,7 +44,7 @@ const SignInScreen: React.FC = () => {
     if (login.fulfilled.match(resultAction)) {
       navigation.navigate('FaceRecognitionSignIn', {
         onVerified: () => {
-          navigation.navigate('Home');
+          navigation.navigate('InstitutionalHome');
         },
       });
     } else if (login.rejected.match(resultAction)) {

@@ -19,7 +19,7 @@ const SelfieScreen = () => {
       screen: 'BiometricVerification',
       params: {
         onVerified: () => {
-          navigation.navigate('Home');
+          navigation.navigate('InstitutionalHome');
         },
       },
     });

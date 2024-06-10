@@ -13,7 +13,7 @@ const FaceRecognitionScreen: React.FC = () => {
   const ovalAnim = useRef(new Animated.Value(1.5)).current; // Tamaño inicial más grande
   const navigation = useNavigation();
   const handleConfirmPress = () => {
-    navigation.navigate('Home');
+    navigation.navigate('InstitutionalHome');
   };
 
   useEffect(() => {
@@ -41,7 +41,7 @@ const FaceRecognitionScreen: React.FC = () => {
           toValue: 0.7, // Ajustar tamaño después de la verificación
           useNativeDriver: true,
         }).start();
-        handleConfirmPress();
+        // handleConfirmPress();
         // Aquí puedes añadir lógica adicional después del tiempo de verificación
       }, 3000); // 3 segundos de verificación
     }, 2000); // Simular la detección del rostro después de 2 segundos
@@ -67,11 +67,16 @@ const FaceRecognitionScreen: React.FC = () => {
       <Text style={styles.description}>
         Ensure your face is fully visible and well-lit
       </Text>
+      <View style={{
+        width: "100%"
+      }}>
       <Camera
         style={{ height: "100%", width: "100%" }}
         device={device}
         isActive={true}
       />
+      </View>
+    
       <View style={styles.overlay}>
         <Animated.View style={[styles.faceShape, { transform: [{ scale: ovalAnim }] }]} />
         {verifying && <Text style={styles.verifyingText}>Verifying face...</Text>}
