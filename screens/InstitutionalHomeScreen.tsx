@@ -9,8 +9,15 @@ import {
   Text,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 const InstitutionalHomeScreen = () => {
+  const navigation = useNavigation();
+
+  const handleConfirmPress = () => {
+    navigation.navigate('TermsAndConditions');
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.fixedHeader}>
@@ -32,7 +39,7 @@ const InstitutionalHomeScreen = () => {
       </View>
       <ScrollView contentContainerStyle={styles.scrollViewContainer}>
         <View style={styles.grid}>
-          <TouchableOpacity style={[styles.card, styles.card1]}>
+          <TouchableOpacity style={[styles.card, styles.card1]} onPress={handleConfirmPress}>
             <Ionicons name="person-add" size={64} color="#000" />
             <Text style={[styles.cardText, {
               color: "#000"

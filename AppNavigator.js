@@ -18,6 +18,9 @@ import TakeTestScreen from './screens/TakeaTestOne';
 import TakeTestScreenTwo from './screens/TakeTestTwo';
 import SeeResultsScreen from './screens/SeeResults';
 import InstitutionalHomeScreen from './screens/InstitutionalHomeScreen';
+import TermsAndConditionsScreen from './screens/TermsAndConditionsScreen';
+import TakeaTestAfterPatientCreatedScreen from './screens/TakeaTestAfterPatientCreated';
+import InstructionalVideoScreen from './screens/InstructionalVideoScreen';
 
 const Stack = createStackNavigator();
 const AuthStack = createStackNavigator();
@@ -39,12 +42,8 @@ function AuthStackNavigator() {
 function VerificationStackNavigator() {
   return (
     <VerificationStack.Navigator screenOptions={{ headerShown: false }}>
-      <VerificationStack.Screen name="IdPhotos" component={IdPhotosScreen} />
       <VerificationStack.Screen name="Selfie" component={SelfieScreen} />
-      <VerificationStack.Screen
-        name="FaceRecognition"
-        component={FaceRecognitionScreen}
-      />
+
       <VerificationStack.Screen
         name="Fingerprint"
         component={FingerprintScreen}
@@ -79,6 +78,14 @@ function AppNavigator() {
         />
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="InstitutionalHome" component={InstitutionalHomeScreen} />
+        <Stack.Screen name="TermsAndConditions" component={TermsAndConditionsScreen} />
+        <Stack.Screen name="IdPhotos" component={IdPhotosScreen} />
+        <Stack.Screen
+          name="FaceRecognition"
+          component={FaceRecognitionScreen}
+        />
+        <Stack.Screen name="TakeaTestAfterPatientCreated" component={TakeaTestAfterPatientCreatedScreen} />
+        <Stack.Screen name="InstructionalVideo" component={InstructionalVideoScreen} />
 
         <Stack.Screen name="InformationHub" component={InformationHubScreen} />
         <Stack.Screen name="TakeTestTwo" component={TakeTestScreenTwo} />

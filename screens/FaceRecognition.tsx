@@ -13,7 +13,7 @@ const FaceRecognitionScreen: React.FC = () => {
   const ovalAnim = useRef(new Animated.Value(1.5)).current; // Tamaño inicial más grande
   const navigation = useNavigation();
   const handleConfirmPress = () => {
-    navigation.navigate('InstitutionalHome');
+    navigation.navigate('TakeaTestAfterPatientCreated');
   };
 
   useEffect(() => {
@@ -41,7 +41,7 @@ const FaceRecognitionScreen: React.FC = () => {
           toValue: 0.7, // Ajustar tamaño después de la verificación
           useNativeDriver: true,
         }).start();
-        // handleConfirmPress();
+       handleConfirmPress();
         // Aquí puedes añadir lógica adicional después del tiempo de verificación
       }, 3000); // 3 segundos de verificación
     }, 2000); // Simular la detección del rostro después de 2 segundos
@@ -58,13 +58,13 @@ const FaceRecognitionScreen: React.FC = () => {
  
   return (
     <ScreenWrapper
-      headerTitle={'Verify your identity'}
+      headerTitle={'Face detection'}
       onButtonPress={handleConfirmPress}
       buttonDisabled={true}
       notShowingButton={false}
       showBackButton={true}
     >
-      <Text style={styles.subtitle}>Step 2/3: Face detection</Text>
+      <Text style={styles.subtitle}>Step 3/3: Facial recognition</Text>
       <Text style={styles.description}>
         Ensure your face is fully visible and well-lit
       </Text>
@@ -81,7 +81,7 @@ const FaceRecognitionScreen: React.FC = () => {
       <View style={styles.overlay}>
         <Animated.View style={[styles.faceShape, { transform: [{ scale: ovalAnim }] }]} />
         {verifying && <Text style={styles.verifyingText}>Verifying face...</Text>}
-        {ready && <Text style={styles.verifyingText}>Ready!</Text>}
+        {ready && <Text style={styles.verifyingText}>Verified!</Text>}
 
       </View>
     </ScreenWrapper>
@@ -123,6 +123,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     position: 'absolute',
     bottom: 100,
+    fontFamily: "Urbanist-Medium"
   },
 });
 

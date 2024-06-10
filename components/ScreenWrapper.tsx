@@ -17,6 +17,7 @@ interface ScreenWrapperProps {
   headerTitle: string;
   notShowingButton: boolean;
   showBackButton: boolean;
+  isScrolledToEnd: boolean;
 }
 
 const ScreenWrapper: React.FC<ScreenWrapperProps> = ({

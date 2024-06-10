@@ -72,14 +72,7 @@ const IdPhotosScreen = () => {
   };
 
   const handleConfirmPress = () => {
-    navigation.navigate('Verification', {
-      screen: 'FaceRecognition',
-      params: {
-        onVerified: () => {
-          navigation.navigate('FaceRecognition');
-        },
-      },
-    });
+    navigation.navigate('FaceRecognition');
   };
 
   // const isConfirmDisabled =
@@ -97,7 +90,7 @@ const IdPhotosScreen = () => {
       notShowingButton={true}
       showBackButton={true}
     >
-      <Text style={styles.subtitle}>Step 1/3: Take photos of your ID</Text>
+      <Text style={styles.subtitle}>Step 2/3: Take photos of your ID</Text>
       <Text style={styles.description}>
         Ensure your ID is fully visible and well-lit
       </Text>
