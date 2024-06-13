@@ -4,7 +4,7 @@ import { Camera, useCameraDevices } from 'react-native-vision-camera';
 import ScreenWrapper from '../components/ScreenWrapper';
 import { useNavigation } from '@react-navigation/native';
 
-const TakeaTestOneScreen: React.FC = () => {
+const TakeaTestTwoScreen: React.FC = () => {
   const [hasPermission, setHasPermission] = useState(false);
   const [verifying, setVerifying] = useState(false);
   const [ready, setReady] = useState(false);
@@ -13,7 +13,7 @@ const TakeaTestOneScreen: React.FC = () => {
   const ovalAnim = useRef(new Animated.Value(1.5)).current; // Tamaño inicial más grande
   const navigation = useNavigation();
   const handleConfirmPress = () => {
-    navigation.navigate('TakeaTestTwo');
+    navigation.navigate('SeeResults');
   };
 
   useEffect(() => {
@@ -58,13 +58,13 @@ const TakeaTestOneScreen: React.FC = () => {
  
   return (
     <ScreenWrapper
-      headerTitle={'Take first photo'}
+      headerTitle={'Take second photo'}
       onButtonPress={handleConfirmPress}
       notShowingButton={true}
       showBackButton={true}
       buttonText="Take a photo"
     >
-      <Text style={styles.subtitle}>Step 1/3: Take a photo of an unused test kit</Text>
+      <Text style={styles.subtitle}>Step 2/3: Take a photo of a used test kit</Text>
       <Text style={styles.description}>
         Ensure the object is fully visible and well-lit
       </Text>
@@ -127,4 +127,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TakeaTestOneScreen;
+export default TakeaTestTwoScreen;

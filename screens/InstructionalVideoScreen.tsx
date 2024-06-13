@@ -1,40 +1,46 @@
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
+import React, { useRef } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
+import Video from 'react-native-video';
 import ScreenWrapper from '../components/ScreenWrapper';
 
 const InstructionalVideoScreen = () => {
   const navigation = useNavigation();
+  const videoRef = useRef(null);
 
   const handleVideoCompletePress = () => {
-    navigation.navigate('NextScreen'); // Navigate to the next screen after video completion
+    navigation.navigate('TakeaTestOne');
   };
 
   return (
     <ScreenWrapper
       headerTitle={'Instructional Video'}
       onButtonPress={handleVideoCompletePress}
-      buttonDisabled={false}
-      notShowingButton={false}
-      showBackButton={true}
+      notShowingButton={true}
+      showBackButton={true} 
     >
       <View style={styles.container}>
-        <Text style={styles.title}>Instructional Video</Text>
         <Text style={styles.description}>
           Please watch the instructional video to understand how to take the test.
         </Text>
-        {/* Here you would embed your video player */}
-        <TouchableOpacity
+        <Video
+          ref={videoRef}
+          style={styles.video}
+          source={{ uri: 'https://www.w3schools.com/html/mov_bbb.mp4' }} // Replace with your video URL
+          controls
+          resizeMode="contain"
+        />
+        {/* <TouchableOpacity
           style={styles.completeButton}
           onPress={handleVideoCompletePress}
         >
           <Text style={styles.buttonText}>Video Complete</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </ScreenWrapper>
   );
@@ -46,11 +52,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 16,
-    backgroundColor: '#F9F9F9',
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontFamily: "Urbanist-Bold",
     color: '#333',
     marginBottom: 16,
     textAlign: 'center',
@@ -60,8 +65,14 @@ const styles = StyleSheet.create({
     color: '#666',
     marginBottom: 24,
     textAlign: 'center',
+    fontFamily: "Urbanist-SemiBold",
+  },
+  video: {
+    width: '100%',
+    height: 200,
   },
   completeButton: {
+    marginTop: 24,
     paddingVertical: 12,
     paddingHorizontal: 24,
     backgroundColor: '#007BFF',

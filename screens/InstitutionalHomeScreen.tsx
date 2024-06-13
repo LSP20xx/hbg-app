@@ -14,8 +14,8 @@ import { useNavigation } from '@react-navigation/native';
 const InstitutionalHomeScreen = () => {
   const navigation = useNavigation();
 
-  const handleConfirmPress = () => {
-    navigation.navigate('TermsAndConditions');
+  const handleConfirmPress = (screen) => {
+    navigation.navigate(screen);
   };
 
   return (
@@ -39,25 +39,25 @@ const InstitutionalHomeScreen = () => {
       </View>
       <ScrollView contentContainerStyle={styles.scrollViewContainer}>
         <View style={styles.grid}>
-          <TouchableOpacity style={[styles.card, styles.card1]} onPress={handleConfirmPress}>
+          <TouchableOpacity style={[styles.card, styles.card1]} onPress={()=>{handleConfirmPress('TermsAndConditions')}}>
             <Ionicons name="person-add" size={64} color="#000" />
             <Text style={[styles.cardText, {
               color: "#000"
             }]}>Create New Patient</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.card, styles.card2]}>
+          <TouchableOpacity style={[styles.card, styles.card2]} onPress={()=>{handleConfirmPress('ApplyTest')}}> 
             <Ionicons name="document-text" size={64} color="#fff" />
             <Text style={[styles.cardText, {
               color: "#fff"
             }]}>Apply Test</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.card, styles.card3]}>
+          <TouchableOpacity style={[styles.card, styles.card3]} onPress={()=>{handleConfirmPress('TestResults')}}>
             <Ionicons name="stats-chart" size={64} color="#fff" />
             <Text style={[styles.cardText, {
               color: "#fff"
             }]}>View Test Results</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.card, styles.card4]}>
+          <TouchableOpacity style={[styles.card, styles.card4]} onPress={()=>{handleConfirmPress('ManagePatients')}}>
             <Ionicons name="people" size={64} color="#000" />
             <Text style={[styles.cardText, {
               color: "#000"

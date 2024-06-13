@@ -18,6 +18,7 @@ interface ScreenWrapperProps {
   notShowingButton: boolean;
   showBackButton: boolean;
   isScrolledToEnd: boolean;
+  buttonText: string;
 }
 
 const ScreenWrapper: React.FC<ScreenWrapperProps> = ({
@@ -28,6 +29,7 @@ const ScreenWrapper: React.FC<ScreenWrapperProps> = ({
   headerTitle = '',
   notShowingButton = true,
   showBackButton = true,
+  buttonText = "Confirm"
 }) => {
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -42,7 +44,7 @@ const ScreenWrapper: React.FC<ScreenWrapperProps> = ({
         notShowingButton && (
           <View style={styles.footer}>
             <Button
-              text="Confirm"
+              text={buttonText}
               onPress={onButtonPress}
               color="#66D19E"
               disabled={buttonDisabled}

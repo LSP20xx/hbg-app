@@ -14,13 +14,16 @@ import FaceRecognitionScreen from './screens/FaceRecognition';
 import FingerprintScreen from './screens/Fingerprint';
 import ParentalConsentScreen from './screens/ParentalConsent';
 import FaceRecognitionSignInScreen from './screens/FaceRecognitionSingIn';
-import TakeTestScreen from './screens/TakeaTestOne';
-import TakeTestScreenTwo from './screens/TakeTestTwo';
-import SeeResultsScreen from './screens/SeeResults';
+import TakeaTestOneScreen from './screens/TakeaTestOne';
+import TakeaTestTwoScreen from './screens/TakeaTestTwo';
+import SeeResultsScreen from './screens/SeeResultsScreen';
 import InstitutionalHomeScreen from './screens/InstitutionalHomeScreen';
 import TermsAndConditionsScreen from './screens/TermsAndConditionsScreen';
 import TakeaTestAfterPatientCreatedScreen from './screens/TakeaTestAfterPatientCreated';
 import InstructionalVideoScreen from './screens/InstructionalVideoScreen';
+import ApplyTestScreen from './screens/ApplyTestScreen';
+import TestResultsScreen from './screens/TestResultsScreen';
+import ManagePatientsScreen from './screens/ManagePatientsScreen';
 
 const Stack = createStackNavigator();
 const AuthStack = createStackNavigator();
@@ -88,8 +91,16 @@ function AppNavigator() {
         <Stack.Screen name="InstructionalVideo" component={InstructionalVideoScreen} />
 
         <Stack.Screen name="InformationHub" component={InformationHubScreen} />
-        <Stack.Screen name="TakeTestTwo" component={TakeTestScreenTwo} />
+        <Stack.Screen name="TakeaTestOne" component={TakeaTestOneScreen} />
+        <Stack.Screen name="TakeaTestTwo" component={TakeaTestTwoScreen} />
         <Stack.Screen name="SeeResults" component={SeeResultsScreen} />
+        <Stack.Screen name="ApplyTest" component={ApplyTestScreen} />
+        <Stack.Screen name="TestResults" component={TestResultsScreen} />
+        <Stack.Screen name="ManagePatients" component={ManagePatientsScreen} />
+
+
+        
+
       </Stack.Navigator>
     </NavigationContainer>
   );

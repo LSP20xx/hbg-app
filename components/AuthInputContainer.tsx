@@ -21,16 +21,18 @@ const AuthInputContainer: React.FC<AuthInputContainerProps> = ({
 
   return (
     <View style={styles.inputContainer}>
+      <Text style={styles.inputTitle}>
+        Enter your email
+      </Text>
       <CustomTextInput
-        placeholder="Email"
-        placeholderTextColor="#999"
         style={styles.input}
         value={email}
         onChangeText={setEmail}
       />
+      <Text style={styles.inputTitle}>
+        Enter your password
+      </Text>
       <CustomTextInput
-        placeholder="Password"
-        placeholderTextColor="#999"
         secureTextEntry={!isPasswordVisible}
         style={styles.input}
         iconName={isPasswordVisible ? 'eye-off-outline' : 'eye-outline'}
@@ -40,7 +42,12 @@ const AuthInputContainer: React.FC<AuthInputContainerProps> = ({
       />
       <TouchableOpacity style={styles.forgotPasswordContainer}>
         {!isSignUp && (
-          <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+          <>
+          <Text style={styles.havingTroubleText}>Having trouble logging in?{" "}</Text>
+
+          <Text style={styles.recoverAccountText}>Recover your account.</Text>
+
+          </>
         )}
       </TouchableOpacity>
     </View>
@@ -59,10 +66,19 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ddd',
   },
-  forgotPasswordContainer: {
-    height: 40,
+  inputTitle: {
+    fontFamily: "Urbanist-Light",
+    margin: 4,
   },
-  forgotPasswordText: {
+  forgotPasswordContainer: {
+    flexDirection: "row",
+  },
+  havingTroubleText: {
+    fontFamily: "Urbanist-Light",
+  },
+  recoverAccountText: {
+    fontFamily: "Urbanist-Light",
+    textDecorationLine: 'underline',
     alignSelf: 'flex-end',
     color: '#999',
   },

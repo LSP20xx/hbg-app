@@ -8,31 +8,30 @@ import {
 } from 'react-native';
 import ScreenWrapper from '../components/ScreenWrapper';
 
-const TakeaTestAfterPatientCreatedScreen = () => {
+const SeeResultsScreen = () => {
   const navigation = useNavigation();
 
   const handleStartTestPress = () => {
-    navigation.navigate('InstructionalVideo'); // Navigate to the instructional video screen
+    navigation.navigate('InstitutionalHome'); // Navigate to the instructional video screen
   };
 
   return (
     <ScreenWrapper
-      headerTitle={'Patient Created'}
-      onButtonPress={handleStartTestPress}
+      headerTitle={'See results'}
       buttonDisabled={false}
       notShowingButton={false}
       showBackButton={true}
     >
       <View style={styles.container}>
-        <Text style={styles.title}>Patient Created Successfully!</Text>
+        <Text style={styles.title}>Here will be the result message</Text>
         <Text style={styles.description}>
-          Now, please proceed to take a test.
+          Now, please proceed back to the home.
         </Text>
         <TouchableOpacity
           style={styles.startTestButton}
           onPress={handleStartTestPress}
         >
-          <Text style={styles.buttonText}>Take a Test</Text>
+          <Text style={styles.buttonText}>Home</Text>
         </TouchableOpacity>
       </View>
     </ScreenWrapper>
@@ -74,4 +73,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TakeaTestAfterPatientCreatedScreen;
+export default SeeResultsScreen;
