@@ -52,7 +52,7 @@ const TestResultsScreen = () => {
       </View>
       <View style={styles.infoContainer}>
         <Text style={styles.infoText}>
-          View test results for each patient.
+          View test results for each user.
         </Text>
       </View>
       <FlatList

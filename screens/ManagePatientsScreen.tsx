@@ -20,7 +20,7 @@ const ManagePatientsScreen = () => {
   const navigation = useNavigation();
 
   const handleEditPatient = (patient) => {
-    console.log(`Edit patient: ${patient.name}`);
+    console.log(`Edit user: ${patient.name}`);
     // Navigate to an edit screen or handle the edit functionality
   };
 
@@ -57,7 +57,7 @@ const ManagePatientsScreen = () => {
       </View>
       <View style={styles.infoContainer}>
         <Text style={styles.infoText}>
-          Manage patient information and edit details as needed.
+          Manage user information and edit details as needed.
         </Text>
       </View>
       <FlatList

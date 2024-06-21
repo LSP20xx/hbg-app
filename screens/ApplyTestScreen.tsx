@@ -63,7 +63,7 @@ const ApplyTestScreen = () => {
       </View>
       <View style={styles.infoContainer}>
       <Text style={styles.infoText}>
-          Select a patient to take a test. The icon indicates whether the patient has completed the test (green: completed, red: not completed).
+          Select a user to take a test. The icon indicates whether the user has completed the test (green: completed, red: not completed).
         </Text>
       </View>
       <FlatList

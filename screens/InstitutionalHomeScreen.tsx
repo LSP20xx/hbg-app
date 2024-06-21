@@ -49,7 +49,7 @@ const InstitutionalHomeScreen = () => {
             <Ionicons name="person-add" size={64} color="#000" />
             <Text style={[styles.cardText, {
               color: "#000"
-            }]}>Create New Patient</Text>
+            }]}>Create New User</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[styles.card, styles.card2]} onPress={()=>{handleConfirmPress('ApplyTest')}}> 
             <Ionicons name="document-text" size={64} color="#fff" />
@@ -67,7 +67,7 @@ const InstitutionalHomeScreen = () => {
             <Ionicons name="people" size={64} color="#000" />
             <Text style={[styles.cardText, {
               color: "#000"
-            }]}>Manage Patients</Text>
+            }]}>Manage Users</Text>
           </TouchableOpacity>
         </View>
 
