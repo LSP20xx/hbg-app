@@ -43,9 +43,11 @@ const styles = StyleSheet.create({
   },
   text: {
     color: '#000',
+    fontFamily: 'Urbanist-SemiBold'
   },
   linkText: {
-    color: '#8fdacb',
+    fontFamily: 'Urbanist-SemiBold',
+    color: '#47A86A',
   },
 });
 

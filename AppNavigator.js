@@ -24,10 +24,13 @@ import InstructionalVideoScreen from './screens/InstructionalVideoScreen';
 import ApplyTestScreen from './screens/ApplyTestScreen';
 import TestResultsScreen from './screens/TestResultsScreen';
 import ManagePatientsScreen from './screens/ManagePatientsScreen';
-
+import AgeVerificationScreen from './screens/AgeVerificationScreen';
+import ConfirmIdentityDataScreen from './screens/ConfirmIdentityData';
+import ConfirmEmailScreen from './screens/ConfirmEmail';
 const Stack = createStackNavigator();
 const AuthStack = createStackNavigator();
 const VerificationStack = createStackNavigator();
+
 
 function AuthStackNavigator() {
   return (
@@ -97,10 +100,19 @@ function AppNavigator() {
         <Stack.Screen name="ApplyTest" component={ApplyTestScreen} />
         <Stack.Screen name="TestResults" component={TestResultsScreen} />
         <Stack.Screen name="ManagePatients" component={ManagePatientsScreen} />
-
-
-        
-
+        <Stack.Screen name="AgeVerification" component={AgeVerificationScreen} />
+        <Stack.Screen 
+        name="ParentalConsent"
+        component={ParentalConsentScreen}
+      />
+      <Stack.Screen 
+        name="ConfirmIdentityData"
+        component={ConfirmIdentityDataScreen}
+      />
+      <Stack.Screen
+        name="ConfirmEmail"
+        component={ConfirmEmailScreen}
+      />
       </Stack.Navigator>
     </NavigationContainer>
   );

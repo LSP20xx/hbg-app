@@ -60,7 +60,7 @@ const TakeaTestOneScreen: React.FC = () => {
     <ScreenWrapper
       headerTitle={'Take first photo'}
       onButtonPress={handleConfirmPress}
-      notShowingButton={true}
+      notShowingButton={false}
       showBackButton={true}
       buttonText="Take a photo"
     >

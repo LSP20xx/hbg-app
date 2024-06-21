@@ -21,7 +21,7 @@ const InstructionalVideoScreen = () => {
     <ScreenWrapper
       headerTitle={'Instructional Video'}
       onButtonPress={handleVideoCompletePress}
-      notShowingButton={true}
+      notShowingButton={false}
       showBackButton={true} 
     >
       <View style={styles.container}>

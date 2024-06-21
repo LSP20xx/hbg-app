@@ -8,6 +8,7 @@ interface AuthScreenBaseProps {
 const AuthScreenBase: React.FC<AuthScreenBaseProps> = ({ children }) => {
   return (
     <SafeAreaView style={styles.container}>
+      <View style={styles.header}></View>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.innerContainer}>{children}</View>
       </ScrollView>
@@ -17,8 +18,10 @@ const AuthScreenBase: React.FC<AuthScreenBaseProps> = ({ children }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#f5f5f5',
+  },
+  header: {
+    height: 80,
   },
   scrollContainer: {
     flexGrow: 1,

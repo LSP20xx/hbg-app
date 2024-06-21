@@ -24,7 +24,7 @@ const TermsAndConditionsScreen = () => {
   };
 
   const handleConfirmPress = () => {
-    navigation.navigate('IdPhotos');
+    navigation.navigate('FaceRecognition');
   };
   useEffect(()=>{
     console.log("isEnd", isScrolledToEnd)
@@ -34,7 +34,7 @@ const TermsAndConditionsScreen = () => {
     <ScreenWrapper
     headerTitle={'Personal information'}
     onButtonPress={handleConfirmPress}
-    notShowingButton={true}
+    notShowingButton={false}
     showBackButton={true}
     // buttonDisabled={!isScrolledToEnd}
   > 

@@ -29,6 +29,11 @@ export const selectUserId = createSelector(
   (userState) => userState.userData?.userId,
 );
 
+export const selectInstitutionalUserId = createSelector(
+  selectUserState,
+  (userState) => userState.institutionalUserId,
+);
+
 export const selectFrontImageLoading = createSelector(
   selectUserState,
   (userState) => userState.imageFrontLoading,
@@ -57,4 +62,9 @@ export const selectFrontImageError = createSelector(
 export const selectBackImageError = createSelector(
   selectUserState,
   (userState) => !!userState.imageBackError,
+);
+
+export const selectImagesLoadedSuccessfully = createSelector(
+  [selectFrontImageSuccess, selectBackImageSuccess, selectFrontImageError, selectBackImageError],
+  (frontSuccess, backSuccess, frontError, backError) => frontSuccess && backSuccess && !frontError && !backError
 );

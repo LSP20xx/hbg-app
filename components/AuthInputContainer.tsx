@@ -21,18 +21,14 @@ const AuthInputContainer: React.FC<AuthInputContainerProps> = ({
 
   return (
     <View style={styles.inputContainer}>
-      <Text style={styles.inputTitle}>
-        Enter your email
-      </Text>
       <CustomTextInput
+        label="Enter your email"
         style={styles.input}
         value={email}
         onChangeText={setEmail}
       />
-      <Text style={styles.inputTitle}>
-        Enter your password
-      </Text>
       <CustomTextInput
+        label="Enter your password"
         secureTextEntry={!isPasswordVisible}
         style={styles.input}
         iconName={isPasswordVisible ? 'eye-off-outline' : 'eye-outline'}
@@ -50,6 +46,7 @@ const AuthInputContainer: React.FC<AuthInputContainerProps> = ({
           </>
         )}
       </TouchableOpacity>
+      
     </View>
   );
 };
@@ -74,6 +71,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   havingTroubleText: {
+    marginLeft: 4,
     fontFamily: "Urbanist-Light",
   },
   recoverAccountText: {

@@ -8,10 +8,11 @@ interface UserState {
   userData: any;
   token: string | null;
   error: string | null;
+  institutionalUserId: string | null;
   imageFrontLoading: boolean;
   imageBackLoading: boolean;
-  imageFrontError: string | null;
-  imageBackError: string | null;
+  imageFrontError: boolean;
+  imageBackError: boolean;
   imageFrontSuccess: boolean;
   imageBackSuccess: boolean;
 }
@@ -22,13 +23,31 @@ const initialState: UserState = {
   userData: null,
   token: null,
   error: null,
+  institutionalUserId: null,
   imageFrontLoading: false,
   imageBackLoading: false,
-  imageFrontError: null,
-  imageBackError: null,
+  imageFrontError: false,
+  imageBackError: false,
   imageFrontSuccess: false,
   imageBackSuccess: false,
 };
+
+export const loadUserId = createAsyncThunk(
+  'user/loadUserId',
+  async (_, { rejectWithValue }) => {
+    try {
+      const userId = await AsyncStorage.getItem('userId');
+      if (userId) {
+        return userId;
+      } else {
+        return rejectWithValue('No userId found');
+      }
+    } catch (error: any) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 
 export const login = createAsyncThunk(
   'user/login',
@@ -42,6 +61,7 @@ export const login = createAsyncThunk(
       });
       const { data } = response;
       await AsyncStorage.setItem('token', data.token);
+      await AsyncStorage.setItem('userId', data.userData?.userId);
       return data;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -60,13 +80,22 @@ export const register = createAsyncThunk(
         headers: { 'Content-Type': 'application/json' },
       });
       const { data } = response;
-      console.log("data", data)
       await AsyncStorage.setItem('token', data.token);
+      await AsyncStorage.setItem('userId', data.userData?.userId);
       return data;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || error.message);
     }
   },
+);
+
+export const logout = createAsyncThunk(
+  'user/logout',
+  async (_, { dispatch }) => {
+    await AsyncStorage.removeItem('token');
+    await AsyncStorage.removeItem('userId');
+    dispatch(userSlice.actions.clearState());
+  }
 );
 
 export const uploadFrontImage = createAsyncThunk(
@@ -116,20 +145,34 @@ export const uploadBackImage = createAsyncThunk(
       });
       return response.data;
     } catch (error: any) {
+      console.log("error", error.response?.data?.message)
       return rejectWithValue(error.response?.data?.message || error.message);
     }
   },
+);
+
+export const createInstitutionalUser = createAsyncThunk(
+  'user/createInstitutionalUser',
+  async (institutionId: string, { rejectWithValue }) => {
+    try {
+      const response = await api.post('/create-institutional-user', { institutionId });
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
 );
 
 const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    logout: (state) => {
+    clearState: (state) => {
       state.authenticated = false;
       state.userData = null;
       state.token = null;
       state.error = null;
+      state.institutionalUserId = null;
     },
   },
   extraReducers: (builder) => {
@@ -164,35 +207,64 @@ const userSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       })
+      .addCase(createInstitutionalUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(createInstitutionalUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.institutionalUserId = action.payload.userId;
+      })
+      .addCase(createInstitutionalUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
       .addCase(uploadFrontImage.pending, (state) => {
         state.imageFrontLoading = true;
-        state.imageFrontError = null;
+        state.imageFrontError = false;
         state.imageFrontSuccess = false;
       })
       .addCase(uploadFrontImage.fulfilled, (state, action) => {
         state.imageFrontLoading = false;
         state.imageFrontSuccess = true;
+        state.imageFrontError = false;
       })
       .addCase(uploadFrontImage.rejected, (state, action) => {
         state.imageFrontLoading = false;
-        state.imageFrontError = action.payload as string;
+        state.imageFrontError = true;
+        state.imageFrontSuccess = false;
       })
       .addCase(uploadBackImage.pending, (state) => {
         state.imageBackLoading = true;
-        state.imageBackError = null;
+        state.imageBackError = false;
         state.imageBackSuccess = false;
       })
       .addCase(uploadBackImage.fulfilled, (state, action) => {
         state.imageBackLoading = false;
         state.imageBackSuccess = true;
+        state.imageBackError = false;
       })
       .addCase(uploadBackImage.rejected, (state, action) => {
         state.imageBackLoading = false;
-        state.imageBackError = action.payload as string;
+        state.imageBackError = true;
+        state.imageBackSuccess = false;
+      })
+      .addCase(logout.fulfilled, (state) => {
+        state.authenticated = false;
+        state.userData = null;
+        state.token = null;
+        state.error = null;
+        state.institutionalUserId = null;
+      })
+      .addCase(loadUserId.fulfilled, (state, action) => {
+        state.userData = { ...state.userData, userId: action.payload };
+      })
+      .addCase(loadUserId.rejected, (state, action) => {
+        state.error = action.payload as string;
       });
   },
 });
 
-export const { logout } = userSlice.actions;
+export const { clearState } = userSlice.actions;
 
 export default userSlice.reducer;

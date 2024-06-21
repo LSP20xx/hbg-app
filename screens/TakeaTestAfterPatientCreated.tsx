@@ -20,7 +20,7 @@ const TakeaTestAfterPatientCreatedScreen = () => {
       headerTitle={'Patient Created'}
       onButtonPress={handleStartTestPress}
       buttonDisabled={false}
-      notShowingButton={false}
+      notShowingButton={true}
       showBackButton={true}
     >
       <View style={styles.container}>

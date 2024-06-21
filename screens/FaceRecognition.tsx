@@ -13,7 +13,7 @@ const FaceRecognitionScreen: React.FC = () => {
   const ovalAnim = useRef(new Animated.Value(1.5)).current; // Tamaño inicial más grande
   const navigation = useNavigation();
   const handleConfirmPress = () => {
-    navigation.navigate('TakeaTestAfterPatientCreated');
+    navigation.navigate('ConfirmEmail');
   };
 
   useEffect(() => {
@@ -41,7 +41,9 @@ const FaceRecognitionScreen: React.FC = () => {
           toValue: 0.7, // Ajustar tamaño después de la verificación
           useNativeDriver: true,
         }).start();
-       handleConfirmPress();
+        setTimeout(()=>{
+          handleConfirmPress();
+        }, 3000)
         // Aquí puedes añadir lógica adicional después del tiempo de verificación
       }, 3000); // 3 segundos de verificación
     }, 2000); // Simular la detección del rostro después de 2 segundos
@@ -61,22 +63,23 @@ const FaceRecognitionScreen: React.FC = () => {
       headerTitle={'Face detection'}
       onButtonPress={handleConfirmPress}
       buttonDisabled={true}
-      notShowingButton={false}
+      notShowingButton={true}
       showBackButton={true}
-    >
-      <Text style={styles.subtitle}>Step 3/3: Facial recognition</Text>
+    >      
+    <View style={{
+      width: "100%",
+justifyContent: "center"    }}>
+      <Text style={styles.subtitle}>Step 4/5: Facial recognition</Text>
       <Text style={styles.description}>
         Ensure your face is fully visible and well-lit
       </Text>
-      <View style={{
-        width: "100%"
-      }}>
+      </View>
+
       <Camera
         style={{ height: "100%", width: "100%" }}
         device={device}
         isActive={true}
       />
-      </View>
     
       <View style={styles.overlay}>
         <Animated.View style={[styles.faceShape, { transform: [{ scale: ovalAnim }] }]} />

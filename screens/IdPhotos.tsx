@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
   Text,
@@ -10,7 +10,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import { useDispatch, useSelector } from 'react-redux';
-import { uploadFrontImage, uploadBackImage } from '../redux/slices/userSlice';
+import { uploadFrontImage, uploadBackImage, createInstitutionalUser } from '../redux/slices/userSlice';
 import {
   selectUserId,
   selectFrontImageLoading,
@@ -19,10 +19,13 @@ import {
   selectBackImageSuccess,
   selectFrontImageError,
   selectBackImageError,
+  selectInstitutionalUserId,
+  selectImagesLoadedSuccessfully,
 } from '../redux/selectors/userSelectors';
 import HeaderWithBackButton from '../components/HeaderWithBackButton';
 import ScreenWrapper from '../components/ScreenWrapper';
 import { useNavigation } from '@react-navigation/native';
+import { AppDispatch } from '../redux/store';
 
 const IdPhotosScreen = () => {
   const [frontImage, setFrontImage] = React.useState<string | null>(null);
@@ -30,16 +33,32 @@ const IdPhotosScreen = () => {
   const [localFrontLoading, setLocalFrontLoading] = React.useState(false);
   const [localBackLoading, setLocalBackLoading] = React.useState(false);
 
-  const userId = useSelector(selectUserId);
+  const institutionalUserId = useSelector(selectInstitutionalUserId);
   const imageFrontLoading = useSelector(selectFrontImageLoading);
   const imageBackLoading = useSelector(selectBackImageLoading);
   const imageFrontSuccess = useSelector(selectFrontImageSuccess);
   const imageBackSuccess = useSelector(selectBackImageSuccess);
   const imageFrontError = useSelector(selectFrontImageError);
   const imageBackError = useSelector(selectBackImageError);
+  const imagesLoadedSuccessfully = useSelector(selectImagesLoadedSuccessfully);
   const navigation = useNavigation();
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(()=>{
+    console.log("institutionalUserId",institutionalUserId)
+
+  }, [institutionalUserId])
+
+
+  useEffect(()=>{
+    console.log("imageFrontSuccess",imageFrontSuccess)
+    console.log("imageBackSuccess",imageBackSuccess)
+    console.log("imageFrontError",imageFrontError)
+    console.log("imageBackError",imageBackError)
+
+  }, [imageFrontError, imageBackError, imageBackSuccess, imageFrontSuccess])
+
 
   const handleFrontImageSelection = async (
     setImage: React.Dispatch<React.SetStateAction<string | null>>,
@@ -51,7 +70,7 @@ const IdPhotosScreen = () => {
     if (!result.canceled) {
       const uri = result.assets[0].uri;
       setImage(uri);
-      await dispatch(uploadFrontImage({ imageUri: uri, userId }));
+      await dispatch(uploadFrontImage({ imageUri: uri, userId: institutionalUserId }));
     }
     setLocalFrontLoading(false);
   };
@@ -66,31 +85,24 @@ const IdPhotosScreen = () => {
     if (!result.canceled) {
       const uri = result.assets[0].uri;
       setImage(uri);
-      await dispatch(uploadBackImage({ imageUri: uri, userId }));
+      await dispatch(uploadBackImage({ imageUri: uri, userId: institutionalUserId }));
     }
     setLocalBackLoading(false);
   };
 
   const handleConfirmPress = () => {
-    navigation.navigate('FaceRecognition');
+    navigation.navigate('ConfirmIdentityData');
   };
-
-  // const isConfirmDisabled =
-  //   imageFrontLoading ||
-  //   imageBackLoading ||
-  //   !imageFrontSuccess ||
-  //   !imageBackSuccess ||
-  //   imageFrontError ||
-  //   imageBackError;
 
   return (
     <ScreenWrapper
       headerTitle={'Verify your identity'}
       onButtonPress={handleConfirmPress}
-      notShowingButton={true}
+      notShowingButton={false}
       showBackButton={true}
+      buttonDisabled={!frontImage || !backImage || !imagesLoadedSuccessfully}
     >
-      <Text style={styles.subtitle}>Step 2/3: Take photos of your ID</Text>
+      <Text style={styles.subtitle}>Step 2/5: Take photos of your ID</Text>
       <Text style={styles.description}>
         Ensure your ID is fully visible and well-lit
       </Text>

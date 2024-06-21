@@ -13,7 +13,8 @@ import AuthInputContainer from '../components/AuthInputContainer';
 import ActionButton from '../components/ActionButton';
 import AuthLinkComponent from '../components/AuthLinkComponent';
 import CustomAlert from '../components/CustomAlert';
-import { Text } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import ScreenWrapper from '../components/ScreenWrapper';
 
 type RootStackParamList = {
   SignUp: undefined;
@@ -49,22 +50,28 @@ const SignInScreen: React.FC = () => {
   };
 
   return (
-    <AuthScreenBase>
-      <Logo />
-      <Formik
-        initialValues={{ email: '', password: '' }}
-        validationSchema={authValidationSchema}
-        onSubmit={handleSignIn}
-      >
-        {({
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          values,
-          errors,
-          touched,
-        }) => (
-          <>
+    <Formik
+      initialValues={{ email: '', password: '' }}
+      validationSchema={authValidationSchema}
+      onSubmit={handleSignIn}
+    >
+      {({
+        handleChange,
+        handleBlur,
+        handleSubmit,
+        values,
+        errors,
+        touched,
+      }) => (
+        <ScreenWrapper
+          onButtonPress={handleSubmit as any}
+          headerTitle=""
+          buttonText="Sign in"
+          showBackButton={false}
+        >
+                      <Text style={styles.title}>Login to ELOHEH app</Text>
+
+          <View style={styles.container}>
             <AuthInputContainer
               email={values.email}
               setEmail={handleChange('email')}
@@ -75,28 +82,37 @@ const SignInScreen: React.FC = () => {
             {touched.password && errors.password && (
               <Text>{errors.password}</Text>
             )}
-            <ActionButton
-              text="Sign in"
-              onPress={handleSubmit as any}
-              color="#66D19E"
+            <AuthLinkComponent
+              onPress={() => navigation.navigate('SignUp')}
+              message="Don't have an account?"
+              linkText="Sign up now"
             />
-          </>
-        )}
-      </Formik>
-      <AuthLinkComponent
-        onPress={handleSignUp}
-        message="Don't have an account?"
-        linkText="Sign up now"
-      />
-      {error && (
-        <CustomAlert
-          visible={!!error}
-          message={error}
-          onClose={() => setError(null)}
-        />
+            {error && (
+              <CustomAlert
+                visible={!!error}
+                message={error}
+                onClose={() => setError(null)}
+              />
+            )}
+          </View>
+        </ScreenWrapper>
       )}
-    </AuthScreenBase>
+    </Formik>
   );
 };
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'space-between',
+  },
+  title: {
+    fontFamily: "Urbanist-Bold",
+    fontSize: 28,
+    marginBottom: 60,
+  }
+});
+
 
 export default SignInScreen;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   SafeAreaView,
   View,
@@ -10,6 +10,8 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import {selectUserId} from '../redux/selectors/userSelectors';
+import { useSelector } from 'react-redux';
 
 const InstitutionalHomeScreen = () => {
   const navigation = useNavigation();
@@ -17,7 +19,11 @@ const InstitutionalHomeScreen = () => {
   const handleConfirmPress = (screen) => {
     navigation.navigate(screen);
   };
+  const userId = useSelector(selectUserId);
 
+  useEffect(()=>{
+    console.log("userId", userId)
+  },[userId])
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.fixedHeader}>
@@ -39,7 +45,7 @@ const InstitutionalHomeScreen = () => {
       </View>
       <ScrollView contentContainerStyle={styles.scrollViewContainer}>
         <View style={styles.grid}>
-          <TouchableOpacity style={[styles.card, styles.card1]} onPress={()=>{handleConfirmPress('TermsAndConditions')}}>
+          <TouchableOpacity style={[styles.card, styles.card1]} onPress={()=>{handleConfirmPress('AgeVerification')}}>
             <Ionicons name="person-add" size={64} color="#000" />
             <Text style={[styles.cardText, {
               color: "#000"

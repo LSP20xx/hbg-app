@@ -19,7 +19,7 @@ const SeeResultsScreen = () => {
     <ScreenWrapper
       headerTitle={'See results'}
       buttonDisabled={false}
-      notShowingButton={false}
+      notShowingButton={true}
       showBackButton={true}
     >
       <View style={styles.container}>
