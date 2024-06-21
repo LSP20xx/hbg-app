@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-} from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Linking } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-import { createInstitutionalUser, loadUserId } from '../redux/slices/userSlice';
-import { selectUserId } from '../redux/selectors/userSelectors';
+import { createInstitutionalUser, loadUserId, updateTermsAndConditions } from '../redux/slices/userSlice';
+import { selectUserId, selectInstitutionalUserId } from '../redux/selectors/userSelectors';
 import ScreenWrapper from '../components/ScreenWrapper';
-import CheckBox from '@react-native-community/checkbox';
+import CheckBox from 'expo-checkbox';
 
 const AgeVerificationScreen = () => {
   const [isAdult, setIsAdult] = useState(null);
@@ -19,6 +14,7 @@ const AgeVerificationScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const userId = useSelector(selectUserId);
+  const institutionalUserId = useSelector(selectInstitutionalUserId);
 
   useEffect(() => {
     const fetchUserId = async () => {
@@ -40,11 +36,13 @@ const AgeVerificationScreen = () => {
   }, [userId, dispatch]);
 
   const handleConfirmPress = () => {
-    if (isAdult && isTermsAccepted) {
-      console.log("isAdult", isAdult);
-      navigation.navigate('IdPhotos');
+    if (isAdult) {
+      if (isTermsAccepted) {
+        dispatch(updateTermsAndConditions({ institutionId: institutionalUserId, userId }));
+        navigation.navigate('IdPhotos');
+      }
     } else {
-      navigation.navigate('ParentalConsent');
+      navigation.navigate('ParentalConsent2');
     }
   };
 
@@ -55,7 +53,7 @@ const AgeVerificationScreen = () => {
       notShowingButton={false}
       showBackButton={true}
       buttonText="Confirm"
-      buttonDisabled={isAdult === null || !isTermsAccepted}
+      buttonDisabled={isAdult === null || (isAdult && !isTermsAccepted)}
     >
       <View style={styles.header}>
         <Text style={styles.subtitle}>Step 1/5: Please verify your age</Text>
@@ -75,16 +73,30 @@ const AgeVerificationScreen = () => {
         </TouchableOpacity>
       </View>
 
-      <View style={styles.checkboxContainer}>
-        <CheckBox
-          value={isTermsAccepted}
-          onValueChange={setIsTermsAccepted}
-          style={styles.checkbox}
-        />
-        <Text style={styles.checkboxLabel}>
-          I accept the Terms and Conditions, Privacy Policy, Refund Policy, and Data Protection Policy
-        </Text>
-      </View> 
+      {isAdult && (
+        <View style={styles.footer}>
+          <View style={styles.checkboxContainer}>
+            <CheckBox
+              value={isTermsAccepted}
+              onValueChange={setIsTermsAccepted}
+              style={styles.circularCheckbox}
+              color={isTermsAccepted ? '#66D19E' : undefined}
+            />
+            <Text style={styles.checkboxLabel}>
+              I accept the{" "}
+              <Text style={styles.link} onPress={() => Linking.openURL('https://app.websitepolicies.com/policies/view/9s1986u4')}>Terms and Conditions</Text>,
+              {" "} 
+              <Text style={styles.link} onPress={() => Linking.openURL('https://app.websitepolicies.com/policies/view/s99ikisp')}>Privacy Policy</Text>, 
+              {" "}
+              <Text style={styles.link} onPress={() => Linking.openURL('https://app.websitepolicies.com/policies/view/519m6z9r')}>DMCA Policy</Text>, 
+              {" "}
+              <Text style={styles.link} onPress={() => Linking.openURL('https://app.websitepolicies.com/policies/view/tvq9mzwd')}>Acceptable Use Policy</Text>, and 
+              {" "}
+              <Text style={styles.link} onPress={() => Linking.openURL('https://app.websitepolicies.com/policies/view/4fsjsezz')}>Disclaimer</Text>.
+            </Text>
+          </View>
+        </View>
+      )}
     </ScreenWrapper>
   );
 };
@@ -151,16 +163,33 @@ const styles = StyleSheet.create({
     color: '#050505',
     fontFamily: 'Urbanist-Medium'
   },
+  footer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
   checkboxContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginBottom: 16,
   },
-  checkbox: {
+  circularCheckbox: {
+    height: 20,
+    width: 20,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#666',
+    alignItems: 'center',
+    justifyContent: 'center',
     marginRight: 8,
   },
   checkboxLabel: {
     fontSize: 14,
     flex: 1,
+    fontFamily: "Urbanist-SemiBold"
+  },
+  link: {
+    color: '#004d00',
+    textDecorationLine: 'underline',
   },
 });
 

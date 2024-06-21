@@ -27,6 +27,7 @@ import ManagePatientsScreen from './screens/ManagePatientsScreen';
 import AgeVerificationScreen from './screens/AgeVerificationScreen';
 import ConfirmIdentityDataScreen from './screens/ConfirmIdentityData';
 import ConfirmEmailScreen from './screens/ConfirmEmail';
+import ParentalConsent2Screen from './screens/ParentalConsent2';
 const Stack = createStackNavigator();
 const AuthStack = createStackNavigator();
 const VerificationStack = createStackNavigator();
@@ -113,6 +114,11 @@ function AppNavigator() {
         name="ConfirmEmail"
         component={ConfirmEmailScreen}
       />
+      <Stack.Screen
+        name="ParentalConsent2"
+        component={ParentalConsent2Screen}
+      />
+      
       </Stack.Navigator>
     </NavigationContainer>
   );

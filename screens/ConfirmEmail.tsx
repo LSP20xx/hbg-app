@@ -43,11 +43,6 @@ const ConfirmEmailScreen = () => {
   const nationality = useSelector(selectIdentificationNationality);
   const dateOfBirth = useSelector(selectIdentificationDateOfBirth);
 
-  useEffect(() => {
-    if (institutionalUserId) {
-      dispatch(fetchIdentification(institutionalUserId));
-    }
-  }, [institutionalUserId]);
 
   if (loading) {
     return (
@@ -60,7 +55,7 @@ const ConfirmEmailScreen = () => {
   return (
     <Formik
       initialValues={{ email: '', password: '' }}
-      validationSchema={authValidationSchema}
+      // validationSchema={authValidationSchema}
       onSubmit={(values) => {
         console.log('Submitting email:', values.email);
         // Navigate to the next screen
@@ -78,7 +73,7 @@ const ConfirmEmailScreen = () => {
         <ScreenWrapper
           onButtonPress={handleSubmit as any}
           headerTitle="Confirm your email"
-          buttonText="Next"
+          buttonText="Confirm"
           showBackButton={true}
         >
           <Text style={styles.subtitle}>Step 5/5: Please provide an email</Text>
@@ -86,7 +81,7 @@ const ConfirmEmailScreen = () => {
             We will send you the results by email
           </Text>
           <CustomTextInput
-            placeholder="Email"
+            label="Email"
             value={values.email}
             onChangeText={handleChange('email')}
             onBlur={handleBlur('email')}

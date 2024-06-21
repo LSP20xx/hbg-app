@@ -163,6 +163,30 @@ export const createInstitutionalUser = createAsyncThunk(
   }
 );
 
+export const updateTermsAndConditions = createAsyncThunk(
+  'user/updateTermsAndConditions',
+  async ({ institutionId, userId }: { institutionId: string; userId: string }, { rejectWithValue }) => {
+    try {
+      const response = await api.post('/update-terms', { institutionId, userId });
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
+
+export const updateEmail = createAsyncThunk(
+  'user/updateEmail',
+  async ({ userId, email }: { userId: string; email: string }, { rejectWithValue }) => {
+    try {
+      const response = await api.post('/update-email', { userId, email });
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
+
 const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -219,6 +243,17 @@ const userSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       })
+      .addCase(updateTermsAndConditions.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateTermsAndConditions.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(updateTermsAndConditions.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
       .addCase(uploadFrontImage.pending, (state) => {
         state.imageFrontLoading = true;
         state.imageFrontError = false;
@@ -260,6 +295,18 @@ const userSlice = createSlice({
         state.userData = { ...state.userData, userId: action.payload };
       })
       .addCase(loadUserId.rejected, (state, action) => {
+        state.error = action.payload as string;
+      })
+      .addCase(updateEmail.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateEmail.fulfilled, (state, action) => {
+        state.loading = false;
+        state.userData.email = action.payload.email;
+      })
+      .addCase(updateEmail.rejected, (state, action) => {
+        state.loading = false;
         state.error = action.payload as string;
       });
   },

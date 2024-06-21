@@ -80,12 +80,12 @@ const CustomDatePicker: React.FC<CustomDatePickerProps> = ({
                   display="default"
                   onChange={handleDateChange}
                 />
-                <TouchableOpacity
+                {/* <TouchableOpacity
                   onPress={() => setShowPicker(false)}
                   style={styles.closeButton}
                 >
                   <Ionicons name="close" size={24} color="black" />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
               </View>
             </View>
           </Modal>
@@ -129,9 +129,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
   pickerContainer: {
-    backgroundColor: 'white',
     borderRadius: 8,
-    padding: 20,
     alignItems: 'center',
   },
   closeButton: {
