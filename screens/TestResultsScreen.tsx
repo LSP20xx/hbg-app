@@ -13,7 +13,6 @@ import { Ionicons } from '@expo/vector-icons';
 
 const testResults = [
   { id: '36594679', name: 'Lautaro Santiago Perrotti', result: 'Positive' },
-  { id: '37276015', name: 'Jane Smith', result: 'Negative' },
 ];
 
 const TestResultsScreen = () => {

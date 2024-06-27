@@ -1,7 +1,7 @@
 // Navigation.js
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './screens/Home';
 import InformationHubScreen from './screens/InformationHub';
 import SignInScreen from './screens/SignInScreen';
@@ -28,6 +28,9 @@ import AgeVerificationScreen from './screens/AgeVerificationScreen';
 import ConfirmIdentityDataScreen from './screens/ConfirmIdentityData';
 import ConfirmEmailScreen from './screens/ConfirmEmail';
 import ParentalConsent2Screen from './screens/ParentalConsent2';
+import IdParentAndChildPhotoScreen from './screens/IdParentAndChildPhoto';
+import ConfirmBothDataScreen from './screens/ConfirmBothData';
+import FaceRecognition2Screen from './screens/FaceRecognition2';
 const Stack = createStackNavigator();
 const AuthStack = createStackNavigator();
 const VerificationStack = createStackNavigator();
@@ -76,7 +79,9 @@ function AppNavigator() {
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName="Auth"
-        screenOptions={{ headerShown: false }}
+        screenOptions={{ headerShown: false,
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+         }}
       >
         <Stack.Screen name="Auth" component={AuthStackNavigator} />
         <Stack.Screen
@@ -118,7 +123,18 @@ function AppNavigator() {
         name="ParentalConsent2"
         component={ParentalConsent2Screen}
       />
-      
+       <Stack.Screen
+        name="IdParentAndChildPhoto"
+        component={IdParentAndChildPhotoScreen}
+      />
+        <Stack.Screen
+        name="ConfirmBothData"
+        component={ConfirmBothDataScreen}
+      />
+  <Stack.Screen
+        name="FaceRecognition2"
+        component={FaceRecognition2Screen}
+      />
       </Stack.Navigator>
     </NavigationContainer>
   );

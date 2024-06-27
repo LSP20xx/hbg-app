@@ -32,6 +32,8 @@ const IdPhotosScreen = () => {
   const [backImage, setBackImage] = React.useState<string | null>(null);
   const [localFrontLoading, setLocalFrontLoading] = React.useState(false);
   const [localBackLoading, setLocalBackLoading] = React.useState(false);
+  const [frontImageMessage, setFrontImageMessage] = React.useState<string | null>("Please, upload the front image");
+  const [backImageMessage, setBackImageMessage] = React.useState<string | null>("Please, upload the back image");
 
   const institutionalUserId = useSelector(selectInstitutionalUserId);
   const imageFrontLoading = useSelector(selectFrontImageLoading);
@@ -45,20 +47,16 @@ const IdPhotosScreen = () => {
 
   const dispatch = useDispatch<AppDispatch>();
 
-  useEffect(()=>{
-    console.log("institutionalUserId",institutionalUserId)
-
+  useEffect(() => {
+    console.log("institutionalUserId", institutionalUserId)
   }, [institutionalUserId])
 
-
-  useEffect(()=>{
-    console.log("imageFrontSuccess",imageFrontSuccess)
-    console.log("imageBackSuccess",imageBackSuccess)
-    console.log("imageFrontError",imageFrontError)
-    console.log("imageBackError",imageBackError)
-
+  useEffect(() => {
+    console.log("imageFrontSuccess", imageFrontSuccess)
+    console.log("imageBackSuccess", imageBackSuccess)
+    console.log("imageFrontError", imageFrontError)
+    console.log("imageBackError", imageBackError)
   }, [imageFrontError, imageBackError, imageBackSuccess, imageFrontSuccess])
-
 
   const handleFrontImageSelection = async (
     setImage: React.Dispatch<React.SetStateAction<string | null>>,
@@ -70,7 +68,13 @@ const IdPhotosScreen = () => {
     if (!result.canceled) {
       const uri = result.assets[0].uri;
       setImage(uri);
-      await dispatch(uploadFrontImage({ imageUri: uri, userId: institutionalUserId }));
+      const response = await dispatch(uploadFrontImage({ imageUri: uri, userId: institutionalUserId }));
+
+      if (response.error) {
+        setFrontImageMessage('Error uploading the front image. Please try again.');
+      } else {
+        setFrontImageMessage('Front image uploaded successfully.');
+      }
     }
     setLocalFrontLoading(false);
   };
@@ -85,7 +89,13 @@ const IdPhotosScreen = () => {
     if (!result.canceled) {
       const uri = result.assets[0].uri;
       setImage(uri);
-      await dispatch(uploadBackImage({ imageUri: uri, userId: institutionalUserId }));
+      const response = await dispatch(uploadBackImage({ imageUri: uri, userId: institutionalUserId }));
+
+      if (response.error) {
+        setBackImageMessage('Error uploading the back image. Please try again.');
+      } else {
+        setBackImageMessage('Back image uploaded successfully.');
+      }
     }
     setLocalBackLoading(false);
   };
@@ -108,17 +118,21 @@ const IdPhotosScreen = () => {
       </Text>
 
       <View style={styles.photoContainer}>
-        <Text style={styles.photoLabel}>FRONT</Text>
+        <Text style={styles.photoLabel}>Front of ID</Text>
         <View style={styles.imageWrapper}>
           {imageFrontLoading || localFrontLoading ? (
-            <ActivityIndicator size="large" color="#66D19E" />
+            <ActivityIndicator size={64} color="#66D19E" />
           ) : (
             frontImage && (
               <Image source={{ uri: frontImage }} style={styles.photo} />
             )
           )}
         </View>
-
+        <View style={styles.messageContainer}>
+          {frontImageMessage && (
+            <Text style={styles.message}>{frontImageMessage}</Text>
+          )}
+        </View>
         <View style={styles.buttonRow}>
           <TouchableOpacity
             style={styles.cameraButton}
@@ -142,7 +156,6 @@ const IdPhotosScreen = () => {
           >
             <Ionicons name="image" size={50} />
           </TouchableOpacity>
-
           <TouchableOpacity
             style={styles.cameraButton}
             onPress={() => setFrontImage(null)}
@@ -158,14 +171,19 @@ const IdPhotosScreen = () => {
       </View>
 
       <View style={styles.photoContainer}>
-        <Text style={styles.photoLabel}>BACK</Text>
+        <Text style={styles.photoLabel}>Back of ID</Text>
         <View style={styles.imageWrapper}>
           {imageBackLoading || localBackLoading ? (
-            <ActivityIndicator size="large" color="#66D19E" />
+            <ActivityIndicator size={64} color="#66D19E" />
           ) : (
             backImage && (
               <Image source={{ uri: backImage }} style={styles.photo} />
             )
+          )}
+        </View>
+        <View style={styles.messageContainer}>
+          {backImageMessage && (
+            <Text style={styles.message}>{backImageMessage}</Text>
           )}
         </View>
         <View style={styles.buttonRow}>
@@ -238,7 +256,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   photoLabel: {
-    fontSize: 16,
+    fontSize: 20,
+    fontFamily: "Urbanist-SemiBold",
     marginBottom: 8,
   },
   imageWrapper: {
@@ -268,6 +287,14 @@ const styles = StyleSheet.create({
   },
   cameraIcon: {
     fontSize: 32,
+  },
+  messageContainer: {
+    height: 40
+  },
+  message: {
+    fontSize: 14,
+    fontFamily: 'Urbanist-Medium',
+    marginTop: 8,
   },
 });
 

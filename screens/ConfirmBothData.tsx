@@ -25,7 +25,7 @@ import CustomTextInput from '../components/CustomTextInput';
 import { useNavigation } from '@react-navigation/native';
 import CustomDatePicker from '../components/CustomDatePicker';
 
-const ConfirmIdentityDataScreen = () => {
+const ConfirmBothDataScreen = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const userId = useSelector(selectUserId);
@@ -62,7 +62,7 @@ const ConfirmIdentityDataScreen = () => {
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size={80} color="#66D19E" />
+        <ActivityIndicator size="large" color="#66D19E" />
       </View>
     );
   }
@@ -75,19 +75,19 @@ const ConfirmIdentityDataScreen = () => {
     >
       {({ handleChange, handleBlur, handleSubmit, values, errors, touched, setFieldValue }) => (
         <ScreenWrapper
-          headerTitle={'Confirm your data'}
+          headerTitle={'Confirm both data'}
           onButtonPress={handleSubmit}
           notShowingButton={false}
           showBackButton={true}
           buttonDisabled={!validationSchema.isValidSync(values)}
         >
-          <Text style={styles.subtitle}>Step 3/5: Confirm your identity data</Text>
+          <Text style={styles.subtitle}>Step 4/5: Confirm both identity data</Text>
           <Text style={styles.description}>
-            Please check your data carefully before confirm
+            Please check both data carefully before confirm
           </Text>
 
           <CustomTextInput
-            label="Name"
+            label="Parent name"
             value={values.name}
             onChangeText={handleChange('name')}
             onBlur={handleBlur('name')}
@@ -95,7 +95,7 @@ const ConfirmIdentityDataScreen = () => {
             error={touched.name && errors.name ? errors.name : undefined}
           />
           <CustomTextInput
-            label="Surname"
+            label="Parent surname"
             value={values.surname}
             onChangeText={handleChange('surname')}
             onBlur={handleBlur('surname')}
@@ -103,7 +103,7 @@ const ConfirmIdentityDataScreen = () => {
             error={touched.surname && errors.surname ? errors.surname : undefined}
           />
           <CustomTextInput
-            label="Id number"
+            label="Parent id number"
             value={values.idNumber}
             onChangeText={handleChange('idNumber')}
             onBlur={handleBlur('idNumber')}
@@ -111,7 +111,7 @@ const ConfirmIdentityDataScreen = () => {
             error={touched.idNumber && errors.idNumber ? errors.idNumber : undefined}
           />
           <CustomTextInput
-            label="Nationality"
+            label="Parent nationality"
             value={values.nationality}
             onChangeText={handleChange('nationality')}
             onBlur={handleBlur('nationality')}
@@ -119,7 +119,47 @@ const ConfirmIdentityDataScreen = () => {
             error={touched.nationality && errors.nationality ? errors.nationality : undefined}
           />
           <CustomDatePicker
-            label="Date of birth"
+            label="Parent date of birth"
+            iconName="calendar"
+            iconColor="black"
+            value={values.dateOfBirth}
+            onDateChange={(date) => setFieldValue('dateOfBirth', date)}
+            error={touched.dateOfBirth && errors.dateOfBirth ? errors.dateOfBirth : undefined}
+          />
+          <CustomTextInput
+            label="Child name"
+            value={values.name}
+            onChangeText={handleChange('name')}
+            onBlur={handleBlur('name')}
+            editable={true}
+            error={touched.name && errors.name ? errors.name : undefined}
+          />
+          <CustomTextInput
+            label="Child surname"
+            value={values.surname}
+            onChangeText={handleChange('surname')}
+            onBlur={handleBlur('surname')}
+            editable={true}
+            error={touched.surname && errors.surname ? errors.surname : undefined}
+          />
+          <CustomTextInput
+            label="Child id number"
+            value={values.idNumber}
+            onChangeText={handleChange('idNumber')}
+            onBlur={handleBlur('idNumber')}
+            editable={true}
+            error={touched.idNumber && errors.idNumber ? errors.idNumber : undefined}
+          />
+          <CustomTextInput
+            label="Child nationality"
+            value={values.nationality}
+            onChangeText={handleChange('nationality')}
+            onBlur={handleBlur('nationality')}
+            editable={true}
+            error={touched.nationality && errors.nationality ? errors.nationality : undefined}
+          />
+          <CustomDatePicker
+            label="Child date of birth"
             iconName="calendar"
             iconColor="black"
             value={values.dateOfBirth}
@@ -160,4 +200,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ConfirmIdentityDataScreen;
+export default ConfirmBothDataScreen;

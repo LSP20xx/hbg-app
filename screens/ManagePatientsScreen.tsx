@@ -13,7 +13,6 @@ import { Ionicons } from '@expo/vector-icons';
 
 const patients = [
   { id: '36594679', name: 'Lautaro Santiago Perrotti' },
-  { id: '37276015', name: 'Jane Smith' },
 ];
 
 const ManagePatientsScreen = () => {

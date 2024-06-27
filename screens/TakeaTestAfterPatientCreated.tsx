@@ -17,14 +17,14 @@ const TakeaTestAfterPatientCreatedScreen = () => {
 
   return (
     <ScreenWrapper
-      headerTitle={'Patient Created'}
+      headerTitle={'User Created'}
       onButtonPress={handleStartTestPress}
       buttonDisabled={false}
       notShowingButton={true}
       showBackButton={true}
     >
       <View style={styles.container}>
-        <Text style={styles.title}>Patient Created Successfully!</Text>
+        <Text style={styles.title}>User Created Successfully!</Text>
         <Text style={styles.description}>
           Now, please proceed to take a test.
         </Text>

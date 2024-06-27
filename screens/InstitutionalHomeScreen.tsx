@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   SafeAreaView,
   View,
-  TextInput,
   TouchableOpacity,
   StyleSheet,
   ScrollView,
@@ -10,68 +9,57 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import {selectUserId} from '../redux/selectors/userSelectors';
+import { selectUserId } from '../redux/selectors/userSelectors';
 import { useSelector } from 'react-redux';
+import SearchComponent from '../components/SearchComponent';
+import Header from '../components/Header'; // Importa el nuevo componente Header
 
 const InstitutionalHomeScreen = () => {
   const navigation = useNavigation();
+  const userId = useSelector(selectUserId);
 
   const handleConfirmPress = (screen) => {
     navigation.navigate(screen);
   };
-  const userId = useSelector(selectUserId);
 
-  useEffect(()=>{
-    console.log("userId", userId)
-  },[userId])
+  const handleItemPress = (item) => {
+    console.log('Item pressed:', item);
+  };
+
+  const handleSettingsPress = () => {
+    console.log('Settings pressed');
+  };
+
+  const handleNotificationsPress = () => {
+    console.log('Notifications pressed');
+  };
+
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.fixedHeader}>
-        <View style={styles.header}>
-          <TouchableOpacity>
-            <Ionicons name="settings" size={32} color="#000" />
-          </TouchableOpacity>
-          <View style={styles.headerSpace}></View>
-          <TouchableOpacity>
-            <Ionicons name="notifications" size={32} color="#000" />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.searchContainer}>
-          <TextInput style={styles.searchInput} placeholder="Search" />
-          <TouchableOpacity style={styles.searchButton}>
-            <Ionicons name="search" size={16} color="#000" />
-          </TouchableOpacity>
-        </View>
-      </View>
+      <Header
+        onSettingsPress={handleSettingsPress}
+        onNotificationsPress={handleNotificationsPress}
+      />
       <ScrollView contentContainerStyle={styles.scrollViewContainer}>
         <View style={styles.grid}>
-          <TouchableOpacity style={[styles.card, styles.card1]} onPress={()=>{handleConfirmPress('AgeVerification')}}>
+          <TouchableOpacity style={[styles.card, styles.card1]} onPress={() => handleConfirmPress('AgeVerification')}>
             <Ionicons name="person-add" size={64} color="#000" />
-            <Text style={[styles.cardText, {
-              color: "#000"
-            }]}>Create New User</Text>
+            <Text style={[styles.cardText, { color: "#000" }]}>Create New User</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.card, styles.card2]} onPress={()=>{handleConfirmPress('ApplyTest')}}> 
+          <TouchableOpacity style={[styles.card, styles.card2]} onPress={() => handleConfirmPress('ApplyTest')}>
             <Ionicons name="document-text" size={64} color="#fff" />
-            <Text style={[styles.cardText, {
-              color: "#fff"
-            }]}>Apply Test</Text>
+            <Text style={[styles.cardText, { color: "#fff" }]}>Apply Test</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.card, styles.card3]} onPress={()=>{handleConfirmPress('TestResults')}}>
+          <TouchableOpacity style={[styles.card, styles.card3]} onPress={() => handleConfirmPress('TestResults')}>
             <Ionicons name="stats-chart" size={64} color="#fff" />
-            <Text style={[styles.cardText, {
-              color: "#fff"
-            }]}>View Test Results</Text>
+            <Text style={[styles.cardText, { color: "#fff" }]}>View Test Results</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.card, styles.card4]} onPress={()=>{handleConfirmPress('ManagePatients')}}>
+          <TouchableOpacity style={[styles.card, styles.card4]} onPress={() => handleConfirmPress('ManagePatients')}>
             <Ionicons name="people" size={64} color="#000" />
-            <Text style={[styles.cardText, {
-              color: "#000"
-            }]}>Manage Users</Text>
+            <Text style={[styles.cardText, { color: "#000" }]}>Manage Users</Text>
           </TouchableOpacity>
         </View>
-
-        {/* News Section */}
+        
         <View style={styles.newsContainer}>
           <Text style={styles.newsHeader}>News</Text>
           <View style={styles.newsItem}>
@@ -87,8 +75,6 @@ const InstitutionalHomeScreen = () => {
             <Text style={styles.newsDescription}>Description of the new feature...</Text>
           </View>
         </View>
-        {/* End News Section */}
-        
       </ScrollView>
     </SafeAreaView>
   );
@@ -98,45 +84,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-  },
-  fixedHeader: {
-    backgroundColor: '#fff',
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ddd',
+    marginTop: 30,
   },
   scrollViewContainer: {
     flexGrow: 1,
     padding: 16,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 16,
-    marginTop: 20,
-  },
-  headerSpace: {
-    flex: 1,
-  },
-  searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  searchInput: {
-    flex: 1,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    borderRadius: 8,
-    padding: 8,
-    marginRight: 8,
-    fontFamily: 'Urbanist-Regular',
-  },
-  searchButton: {
-    padding: 8,
-    backgroundColor: '#ccc',
-    borderRadius: 8,
   },
   grid: {
     flexDirection: 'row',
@@ -195,7 +147,7 @@ const styles = StyleSheet.create({
   },
   newsDescription: {
     fontSize: 14,
-    color: '#555',    
+    color: '#555',
     fontFamily: 'Urbanist-Medium',
   },
 });
