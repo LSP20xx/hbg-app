@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { View, TextInput, TouchableOpacity, StyleSheet, FlatList, Text, Modal, SafeAreaView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -6,6 +6,7 @@ const SearchComponent = ({ data, onItemPress, onSettingsPress, onNotificationsPr
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const searchInputRef = useRef(null);
 
   const handleSearch = (query) => {
     setSearchQuery(query);
@@ -21,10 +22,55 @@ const SearchComponent = ({ data, onItemPress, onSettingsPress, onNotificationsPr
     }
   };
 
+  useEffect(() => {
+    if (isModalVisible && searchInputRef.current) {
+      searchInputRef.current.focus();
+    }
+  }, [isModalVisible]);
+
   const closeModal = () => {
     setSearchQuery('');
     setSearchResults([]);
     setIsModalVisible(false);
+  };
+
+  const getIconName = (type) => {
+    switch (type) {
+      case 'user':
+        return 'person';
+      case 'test':
+        return 'document-text';
+      case 'result':
+        return 'stats-chart';
+      default:
+        return 'help';
+    }
+  };
+
+  const getIconColor = (type) => {
+    switch (type) {
+      case 'user':
+        return '#858585';
+      case 'test':
+        return '#47A86A';
+      case 'result':
+        return '#39AA7D';
+      default:
+        return '#000000';
+    }
+  };
+
+  const getTypeText = (type) => {
+    switch (type) {
+      case 'user':
+        return 'User';
+      case 'test':
+        return 'Test';
+      case 'result':
+        return 'Result';
+      default:
+        return 'Unknown';
+    }
   };
 
   return (
@@ -45,7 +91,6 @@ const SearchComponent = ({ data, onItemPress, onSettingsPress, onNotificationsPr
         visible={isModalVisible}
         animationType="none"
         onRequestClose={closeModal}
-        transparent={true}
       >
         <SafeAreaView style={styles.modalContainer}>
           <View style={styles.modalHeader}>
@@ -63,23 +108,37 @@ const SearchComponent = ({ data, onItemPress, onSettingsPress, onNotificationsPr
               placeholder="Search"
               value={searchQuery}
               onChangeText={handleSearch}
+              ref={searchInputRef}
             />
             <TouchableOpacity style={styles.closeButton} onPress={closeModal}>
               <Ionicons name="close" size={24} color="#000" />
             </TouchableOpacity>
           </View>
-          <FlatList
-            data={searchResults}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => (
-              <TouchableOpacity style={styles.resultItem} onPress={() => {
-                onItemPress(item);
-                closeModal();
-              }}>
-                <Text style={styles.resultText}>{item.name}</Text>
-              </TouchableOpacity>
-            )}
-          />
+          <View style={styles.listContainer}>
+            <FlatList
+              data={searchResults}
+              keyExtractor={(item) => item.id.toString()}
+              renderItem={({ item }) => (
+                <TouchableOpacity style={styles.resultItem} onPress={() => {
+                  onItemPress(item);
+                  closeModal();
+                }}>
+                  <Ionicons name={getIconName(item.type)} size={32} color={getIconColor(item.type)} style={styles.resultIcon} />
+                  <View style={styles.resultContent}>
+                    <Text style={styles.resultText}>{item.name}</Text>
+                    <Text style={styles.resultType}>{getTypeText(item.type)}</Text>
+                    <Text style={styles.resultDate}>Created on {item.date}</Text>
+                  </View>
+                  <Text style={styles.resultId}>ID: {item.userId}</Text>
+                </TouchableOpacity>
+              )}
+            />
+          </View>
+          <View style={styles.closeModalButtonContainer}>
+            <TouchableOpacity style={styles.closeModalButton} onPress={closeModal}>
+              <Text style={styles.closeModalButtonText}>Close</Text>
+            </TouchableOpacity>
+          </View>
         </SafeAreaView>
       </Modal>
     </View>
@@ -100,6 +159,7 @@ const styles = StyleSheet.create({
     padding: 8,
     marginRight: 8,
     fontFamily: 'Urbanist-Regular',
+    fontSize: 16,
   },
   searchButton: {
     marginLeft: 4,
@@ -110,7 +170,6 @@ const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
     backgroundColor: 'rgba(255, 255, 255, 0.9)', // Fondo semitransparente
-    justifyContent: 'center', // Centrar contenido verticalmente
   },
   modalHeader: {
     flexDirection: 'row',
@@ -136,17 +195,63 @@ const styles = StyleSheet.create({
     padding: 8,
     marginRight: 12,
     fontFamily: 'Urbanist-Regular',
+    fontSize: 16,
   },
   closeButton: {
     padding: 4,
   },
+  listContainer: {
+    flex: 1,
+    maxHeight: '80%', // Limitar la altura del contenedor de la lista
+  },
   resultItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     padding: 16,
     borderBottomWidth: 1,
     borderBottomColor: '#ddd',
   },
+  resultIcon: {
+    marginRight: 16,
+  },
+  resultContent: {
+    flex: 1,
+  },
   resultText: {
     fontFamily: 'Urbanist-Medium',
+  },
+  resultType: {
+    fontFamily: 'Urbanist-Regular',
+    color: '#555',
+  },
+  resultDate: {
+    fontFamily: 'Urbanist-Regular',
+    color: '#999',
+  },
+  resultId: {
+    fontFamily: 'Urbanist-Regular',
+    color: '#999',
+  },
+  closeModalButtonContainer: {
+    borderTopColor: '#ccc',
+    borderTopWidth: 1,
+    paddingVertical: 16,
+    backgroundColor: '#fff',
+  },
+  closeModalButton: {
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    borderColor: "#c50000",
+    borderWidth: 1,
+    padding: 12,
+    marginHorizontal: 16,
+    alignItems: 'center',
+  },
+  closeModalButtonText: {
+    fontFamily: 'Urbanist-Bold',
+    fontSize: 16,
+    color: "#c50000",
   },
 });
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   SafeAreaView,
   View,
@@ -6,17 +6,34 @@ import {
   StyleSheet,
   ScrollView,
   Text,
+  ActivityIndicator,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { selectUserId } from '../redux/selectors/userSelectors';
-import { useSelector } from 'react-redux';
+import { selectUserId, selectInstitutionUsers, selectLoading } from '../redux/selectors/userSelectors';
+import { useDispatch, useSelector } from 'react-redux';
 import SearchComponent from '../components/SearchComponent';
 import Header from '../components/Header'; // Importa el nuevo componente Header
+import { fetchInstitutionUsers } from '../redux/slices/userSlice';
 
 const InstitutionalHomeScreen = () => {
   const navigation = useNavigation();
   const userId = useSelector(selectUserId);
+  const institutionUsers = useSelector(selectInstitutionUsers);
+  const loading = useSelector(selectLoading);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (userId) {
+      dispatch(fetchInstitutionUsers(userId));
+    }
+  }, [dispatch, userId]);
+
+  useEffect(() => {
+    if (institutionUsers) {
+      console.log("institutionUsers", institutionUsers);
+    }
+  }, [institutionUsers])
 
   const handleConfirmPress = (screen) => {
     navigation.navigate(screen);
@@ -33,6 +50,14 @@ const InstitutionalHomeScreen = () => {
   const handleNotificationsPress = () => {
     console.log('Notifications pressed');
   };
+
+  if (loading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size={80} color="#66D19E" />
+      </View>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -85,6 +110,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     marginTop: 30,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   scrollViewContainer: {
     flexGrow: 1,

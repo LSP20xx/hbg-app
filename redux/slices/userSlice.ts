@@ -9,6 +9,7 @@ interface UserState {
   token: string | null;
   error: string | null;
   institutionalUserId: string | null;
+  institutionUsers: [],
   imageFrontLoading: boolean;
   imageBackLoading: boolean;
   imageFrontError: boolean;
@@ -24,6 +25,7 @@ const initialState: UserState = {
   token: null,
   error: null,
   institutionalUserId: null,
+  institutionUsers: [],
   imageFrontLoading: false,
   imageBackLoading: false,
   imageFrontError: false,
@@ -187,6 +189,19 @@ export const updateEmail = createAsyncThunk(
   }
 );
 
+export const fetchInstitutionUsers = createAsyncThunk(
+  'user/fetchInstitutionUsers',
+  async (userId, { rejectWithValue }) => {
+    try {
+      const response = await api.get(`/institution-users/${userId}`);
+      return response.data.institutionUsers;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
+
+
 const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -197,6 +212,7 @@ const userSlice = createSlice({
       state.token = null;
       state.error = null;
       state.institutionalUserId = null;
+      state.institutionUsers = [];
     },
   },
   extraReducers: (builder) => {
@@ -306,6 +322,18 @@ const userSlice = createSlice({
         state.userData.email = action.payload.email;
       })
       .addCase(updateEmail.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(fetchInstitutionUsers.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchInstitutionUsers.fulfilled, (state, action) => {
+        state.loading = false;
+        state.institutionUsers = action.payload;
+      })
+      .addCase(fetchInstitutionUsers.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });

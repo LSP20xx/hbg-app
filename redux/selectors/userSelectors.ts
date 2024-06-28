@@ -15,9 +15,8 @@ export const selectUserDetails = createSelector(
 
 export const selectIsInstitutional = createSelector(
   selectUserState,
-  (userState) => userState.userData?.isInstitutional,
+  (userState) => userState.userData?.isInstitution,
 );
-
 
 export const selectInstitutionName = createSelector(
   selectUserState,
@@ -32,6 +31,16 @@ export const selectUserId = createSelector(
 export const selectInstitutionalUserId = createSelector(
   selectUserState,
   (userState) => userState.institutionalUserId,
+);
+
+export const selectInstitutionUsers = createSelector(
+  selectUserState,
+  (userState) => userState.institutionUsers,
+);
+
+export const selectLoading = createSelector(
+  selectUserState,
+  (userState) => userState.loading,
 );
 
 export const selectFrontImageLoading = createSelector(
