@@ -8,8 +8,8 @@ import {
   Text,
   ActivityIndicator,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons'; // Importa MaterialIcons además de Ionicons
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { selectUserId, selectInstitutionUsers, selectLoading } from '../redux/selectors/userSelectors';
 import { useDispatch, useSelector } from 'react-redux';
 import SearchComponent from '../components/SearchComponent';
@@ -23,17 +23,19 @@ const InstitutionalHomeScreen = () => {
   const loading = useSelector(selectLoading);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (userId) {
-      dispatch(fetchInstitutionUsers(userId));
-    }
-  }, [dispatch, userId]);
+  useFocusEffect(
+    React.useCallback(() => {
+      if (userId) {
+        dispatch(fetchInstitutionUsers(userId));
+      }
+    }, [dispatch, userId])
+  );
 
   useEffect(() => {
     if (institutionUsers) {
       console.log("institutionUsers", institutionUsers);
     }
-  }, [institutionUsers])
+  }, [institutionUsers]);
 
   const handleConfirmPress = (screen) => {
     navigation.navigate(screen);
@@ -62,6 +64,7 @@ const InstitutionalHomeScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <Header
+        data={institutionUsers}
         onSettingsPress={handleSettingsPress}
         onNotificationsPress={handleNotificationsPress}
       />
@@ -83,6 +86,17 @@ const InstitutionalHomeScreen = () => {
             <Ionicons name="people" size={64} color="#000" />
             <Text style={[styles.cardText, { color: "#000" }]}>Manage Users</Text>
           </TouchableOpacity>
+          
+          <TouchableOpacity style={[styles.card, styles.card5]} onPress={() => handleConfirmPress('ViewResources')}>
+            <Ionicons name="book" size={64} color="#000" />
+            <Text style={[styles.cardText, { color: "#000" }]}>View Resources</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity style={[styles.card, styles.card6]} onPress={() => handleConfirmPress('PublishResource')}>
+            <Ionicons name="duplicate" size={64} color="#fff" />
+            <Text style={[styles.cardText, { color: "#fff" }]}>Publish Resource</Text>
+          </TouchableOpacity>
+          
         </View>
         
         <View style={styles.newsContainer}>
@@ -150,6 +164,12 @@ const styles = StyleSheet.create({
   },
   card4: {
     backgroundColor: '#82FFBF',
+  },
+  card5: {
+    backgroundColor: '#53D496', // Nuevo color para la card 5
+  },
+  card6: {
+    backgroundColor: '#1B5E20', // Nuevo color para la card 6
   },
   cardText: {
     fontSize: 18,

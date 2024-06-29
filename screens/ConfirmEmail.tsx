@@ -1,65 +1,54 @@
-import React, { useEffect } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ActivityIndicator,
-} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  selectInstitutionalUserId,
-  selectUserId,
-} from '../redux/selectors/userSelectors';
-import {
-  fetchIdentification,
-} from '../redux/slices/identificationSlice';
-import {
-  selectIdentificationLoading,
-  selectIdentificationError,
-  selectIdentificationName,
-  selectIdentificationSurname,
-  selectIdentificationIdNumber,
-  selectIdentificationNationality,
-  selectIdentificationDateOfBirth,
-} from '../redux/selectors/identificationSelectors';
+import { useNavigation } from '@react-navigation/native';
+import { Formik } from 'formik';
+import * as yup from 'yup';
+import { updateEmail } from '../redux/slices/userSlice';
+import { selectUserId, selectLoading, selectError } from '../redux/selectors/userSelectors';
 import ScreenWrapper from '../components/ScreenWrapper';
 import CustomTextInput from '../components/CustomTextInput';
-import { useNavigation } from '@react-navigation/native';
-import AuthInputContainer from '../components/AuthInputContainer';
-import { Formik } from 'formik';
-import { authValidationSchema } from '../schemas/authValidationSchema';
+
+const emailValidationSchema = yup.object().shape({
+  email: yup
+    .string()
+    .email('Please enter a valid email')
+    .required('Email is required'),
+});
 
 const ConfirmEmailScreen = () => {
+  const [buttonText, setButtonText] = useState('Confirm');
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const userId = useSelector(selectUserId);
-  const institutionalUserId = useSelector(selectInstitutionalUserId);
+  const loading = useSelector(selectLoading);
+  const error = useSelector(selectError);
 
-  const loading = useSelector(selectIdentificationLoading);
-  const error = useSelector(selectIdentificationError);
-  const name = useSelector(selectIdentificationName);
-  const surname = useSelector(selectIdentificationSurname);
-  const idNumber = useSelector(selectIdentificationIdNumber);
-  const nationality = useSelector(selectIdentificationNationality);
-  const dateOfBirth = useSelector(selectIdentificationDateOfBirth);
+  useEffect(() => {
+    let intervalId;
+    if (loading) {
+      let dotCount = 0;
+      intervalId = setInterval(() => {
+        setButtonText(`Sending email${'.'.repeat(dotCount)}`);
+        dotCount = (dotCount + 1) % 4;
+      }, 500);
+    } else {
+      setButtonText('Confirm');
+    }
 
-
-  if (loading) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#66D19E" />
-      </View>
-    );
-  }
+    return () => clearInterval(intervalId);
+  }, [loading]);
 
   return (
     <Formik
-      initialValues={{ email: '', password: '' }}
-      // validationSchema={authValidationSchema}
+      initialValues={{ email: '' }}
+      validationSchema={emailValidationSchema}
       onSubmit={(values) => {
-        console.log('Submitting email:', values.email);
-        // Navigate to the next screen
-        navigation.navigate('TakeaTestAfterPatientCreated');
+        dispatch(updateEmail({ userId, email: values.email })).then((response) => {
+          if (response.type === 'user/updateEmail/fulfilled') {
+            navigation.navigate('TakeaTestAfterPatientCreated');
+          }
+        });
       }}
     >
       {({
@@ -73,7 +62,7 @@ const ConfirmEmailScreen = () => {
         <ScreenWrapper
           onButtonPress={handleSubmit as any}
           headerTitle="Confirm your email"
-          buttonText="Confirm"
+          buttonText={buttonText}
           showBackButton={true}
         >
           <Text style={styles.subtitle}>Step 5/5: Please provide an email</Text>
@@ -85,8 +74,11 @@ const ConfirmEmailScreen = () => {
             value={values.email}
             onChangeText={handleChange('email')}
             onBlur={handleBlur('email')}
-          />     
-          {touched.email && errors.email && <Text>{errors.email}</Text>}
+            keyboardType="email-address"
+            autoCapitalize="none"
+          />
+          {touched.email && errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
+          {error && <Text style={styles.errorText}>{error}</Text>}
         </ScreenWrapper>
       )}
     </Formik>
@@ -109,6 +101,11 @@ const styles = StyleSheet.create({
     color: '#666',
     marginBottom: 24,
     fontFamily: 'Urbanist-Medium',
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 12,
+    marginTop: 8,
   },
 });
 

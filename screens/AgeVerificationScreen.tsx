@@ -16,17 +16,11 @@ const AgeVerificationScreen = () => {
   const userId = useSelector(selectUserId);
   const institutionalUserId = useSelector(selectInstitutionalUserId);
 
-  useEffect(() => {
-    const fetchUserId = async () => {
-      if (!userId) {
-        const storedUserId = await AsyncStorage.getItem('userId');
-        if (storedUserId) {
-          dispatch(loadUserId(storedUserId));
-        }
-      }
-    };
-    fetchUserId();
-  }, [userId, dispatch]);
+
+  useEffect(()=>{
+    console.log("userId", userId)
+    console.log("institutionalUserId", institutionalUserId)
+  }, [userId, institutionalUserId])
 
   useEffect(() => {
     if (userId) {

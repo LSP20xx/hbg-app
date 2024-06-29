@@ -157,7 +157,7 @@ export const createInstitutionalUser = createAsyncThunk(
   'user/createInstitutionalUser',
   async (institutionId: string, { rejectWithValue }) => {
     try {
-      const response = await api.post('/create-institutional-user', { institutionId });
+      const response = await api.post('/create-user-of-institution', { institutionId });
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || error.message);

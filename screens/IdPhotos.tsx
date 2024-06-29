@@ -63,6 +63,7 @@ const IdPhotosScreen = () => {
     pickerFunction: () => Promise<any>,
   ) => {
     setLocalFrontLoading(true);
+    setFrontImageMessage("Uploading front image...");
     const result = await pickerFunction();
 
     if (!result.canceled) {
@@ -71,7 +72,7 @@ const IdPhotosScreen = () => {
       const response = await dispatch(uploadFrontImage({ imageUri: uri, userId: institutionalUserId }));
 
       if (response.error) {
-        setFrontImageMessage('Error uploading the front image. Please try again.');
+        setFrontImageMessage('Error uploading front image. Please try again.');
       } else {
         setFrontImageMessage('Front image uploaded successfully.');
       }
@@ -84,6 +85,7 @@ const IdPhotosScreen = () => {
     pickerFunction: () => Promise<any>,
   ) => {
     setLocalBackLoading(true);
+    setBackImageMessage("Uploading back image...");
     const result = await pickerFunction();
 
     if (!result.canceled) {
@@ -92,7 +94,7 @@ const IdPhotosScreen = () => {
       const response = await dispatch(uploadBackImage({ imageUri: uri, userId: institutionalUserId }));
 
       if (response.error) {
-        setBackImageMessage('Error uploading the back image. Please try again.');
+        setBackImageMessage('Error uploading back image. Please try again.');
       } else {
         setBackImageMessage('Back image uploaded successfully.');
       }

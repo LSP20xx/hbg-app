@@ -2,11 +2,35 @@ import React, { useState, useRef, useEffect } from 'react';
 import { View, TextInput, TouchableOpacity, StyleSheet, FlatList, Text, Modal, SafeAreaView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-const SearchComponent = ({ data, onItemPress, onSettingsPress, onNotificationsPress }) => {
+const SearchComponent = ({ onItemPress, onSettingsPress, onNotificationsPress }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const searchInputRef = useRef(null);
+
+  const hardcodedData = [
+    {
+      id: "1",
+      type: 'user',
+      name: 'Lautaro Santiago Perrotti',
+      idNumber: 36594679,
+      createdAt: '2024-06-28T00:00:00.000Z',
+    },
+    {
+      id: "2",
+      type: 'test',
+      name: 'Lautaro Santiago Perrotti',
+      idNumber: 36594679,
+      createdAt: '2024-06-28T00:00:00.000Z',
+    },
+    {
+      id: "3",
+      type: 'result',
+      name: 'Lautaro Santiago Perrotti',
+      idNumber: 36594679,
+      createdAt: '2024-06-28T00:00:00.000Z',
+    },
+  ];
 
   const handleSearch = (query) => {
     setSearchQuery(query);
@@ -14,8 +38,9 @@ const SearchComponent = ({ data, onItemPress, onSettingsPress, onNotificationsPr
       setSearchResults([]);
       setIsModalVisible(false); // Cerrar modal si no hay búsqueda
     } else {
-      const results = data.filter(item =>
-        item.name.toLowerCase().includes(query.toLowerCase())
+      const results = hardcodedData.filter(item =>
+        item.name.toLowerCase().includes(query.toLowerCase()) || 
+        item.idNumber.toString().includes(query)
       );
       setSearchResults(results);
       setIsModalVisible(true); // Abrir modal si hay búsqueda
@@ -115,24 +140,30 @@ const SearchComponent = ({ data, onItemPress, onSettingsPress, onNotificationsPr
             </TouchableOpacity>
           </View>
           <View style={styles.listContainer}>
-            <FlatList
-              data={searchResults}
-              keyExtractor={(item) => item.id.toString()}
-              renderItem={({ item }) => (
-                <TouchableOpacity style={styles.resultItem} onPress={() => {
-                  onItemPress(item);
-                  closeModal();
-                }}>
-                  <Ionicons name={getIconName(item.type)} size={32} color={getIconColor(item.type)} style={styles.resultIcon} />
-                  <View style={styles.resultContent}>
-                    <Text style={styles.resultText}>{item.name}</Text>
-                    <Text style={styles.resultType}>{getTypeText(item.type)}</Text>
-                    <Text style={styles.resultDate}>Created on {item.date}</Text>
-                  </View>
-                  <Text style={styles.resultId}>ID: {item.userId}</Text>
-                </TouchableOpacity>
-              )}
-            />
+            {hardcodedData.length === 0 ? (
+              <View style={styles.noDataContainer}>
+                <Text style={styles.noDataText}>No data available</Text>
+              </View>
+            ) : (
+              <FlatList
+                data={searchResults}
+                keyExtractor={(item) => item.id.toString()}
+                renderItem={({ item }) => (
+                  <TouchableOpacity style={styles.resultItem} onPress={() => {
+                    // onItemPress(item);
+                    // closeModal();
+                  }}>
+                    <Ionicons name={getIconName(item.type)} size={32} color={getIconColor(item.type)} style={styles.resultIcon} />
+                    <View style={styles.resultContent}>
+                      <Text style={styles.resultText}>{item.name}</Text>
+                      <Text style={styles.resultType}>{getTypeText(item.type)}</Text>
+                      <Text style={styles.resultDate}>Created on {new Date(item.createdAt).toISOString().split('T')[0]}</Text>
+                    </View>
+                    <Text style={styles.resultId}>ID: {item.idNumber}</Text>
+                  </TouchableOpacity>
+                )}
+              />
+            )}
           </View>
           <View style={styles.closeModalButtonContainer}>
             <TouchableOpacity style={styles.closeModalButton} onPress={closeModal}>
@@ -229,6 +260,10 @@ const styles = StyleSheet.create({
     fontFamily: 'Urbanist-Regular',
     color: '#999',
   },
+  institutionUsers: {
+    fontFamily: 'Urbanist-Regular',
+    color: '#777',
+  },
   resultId: {
     fontFamily: 'Urbanist-Regular',
     color: '#999',
@@ -252,6 +287,16 @@ const styles = StyleSheet.create({
     fontFamily: 'Urbanist-Bold',
     fontSize: 16,
     color: "#c50000",
+  },
+  noDataContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  noDataText: {
+    fontFamily: 'Urbanist-Bold',
+    fontSize: 18,
+    color: '#999',
   },
 });
 

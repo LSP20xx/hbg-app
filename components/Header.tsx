@@ -3,22 +3,8 @@ import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import SearchComponent from './SearchComponent'; // Importa el componente SearchComponent
 
-const data = [
-  { id: 1, type: 'user', name: 'Lautaro Santiago Perrotti', date: '06/27/2024', userId: "00004" },
-  { id: 2, type: 'test', name: 'Lautaro Santiago Perrotti', date: '06/26/2024', userId: "00004" },
-  { id: 3, type: 'result', name: 'Lautaro Santiago Perrotti', date: '06/25/2024', userId: "00004" },
-  { id: 4, type: 'user', name: 'Lautaro Santiago Perrotti', date: '06/27/2024', userId: "00004" },
-  { id: 5, type: 'test', name: 'Lautaro Santiago Perrotti', date: '06/26/2024', userId: "00004" },
-  { id: 6, type: 'result', name: 'Lautaro Santiago Perrotti', date: '06/25/2024', userId: "00004" },
-  { id: 7, type: 'user', name: 'Lautaro Santiago Perrotti', date: '06/27/2024', userId: "00004" },
-  { id: 8, type: 'test', name: 'Lautaro Santiago Perrotti', date: '06/26/2024', userId: "00004" },
-  { id: 9, type: 'result', name: 'Lautaro Santiago Perrotti', date: '06/25/2024', userId: "00004" },
-  { id: 10, type: 'user', name: 'Lautaro Santiago Perrotti', date: '06/27/2024', userId: "00004" },
-  { id: 11, type: 'test', name: 'Lautaro Santiago Perrotti', date: '06/26/2024', userId: "00004" },
-  { id: 12, type: 'result', name: 'Lautaro Santiago Perrotti', date: '06/25/2024', userId: "00004" },
-];
 
-const Header = ({ onItemPress, onSettingsPress, onNotificationsPress }) => {
+const Header = ({ data, onItemPress, onSettingsPress, onNotificationsPress }) => {
   return (
     <View style={styles.headerContainer}>
       <View style={styles.header}>

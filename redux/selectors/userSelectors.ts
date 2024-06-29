@@ -77,3 +77,8 @@ export const selectImagesLoadedSuccessfully = createSelector(
   [selectFrontImageSuccess, selectBackImageSuccess, selectFrontImageError, selectBackImageError],
   (frontSuccess, backSuccess, frontError, backError) => frontSuccess && backSuccess && !frontError && !backError
 );
+
+export const selectError = createSelector(
+  selectUserState,
+  (userState) => userState.error,
+);

@@ -11,22 +11,29 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-const testResults = [
-  { id: '36594679', name: 'Lautaro Santiago Perrotti', result: 'Negative' },
-];
+const resources = [
+    { id: '001', name: 'Guidelines for Sickle Cell Disease Management', createdAt: new Date() },
+    { id: '002', name: 'Patient Support Programs', createdAt: new Date() },
+    { id: '003', name: 'Sickle Cell Disease Treatment Options', createdAt: new Date() },
+  ];
 
-const TestResultsScreen = () => {
+const ViewResourcesScreen = () => {
   const navigation = useNavigation();
+
+  const handleEditResource = (resource) => {
+    console.log(`Edit resource: ${resource.name}`);
+    // Navigate to an edit screen or handle the edit functionality
+  };
 
   const renderItem = ({ item }) => (
     <View style={styles.item}>
       <View>
         <Text style={styles.name}>{item.name}</Text>
-        <Text style={styles.id}>ID: {item.id}</Text>
+        <Text style={styles.date}>Created on {item.createdAt.toISOString().split('T')[0]}</Text>
       </View>
-      <Text style={item.result === 'Positive' ? styles.resultPositive : styles.resultNegative}>
-        {item.result}
-      </Text>
+      <TouchableOpacity onPress={() => handleEditResource(item)}>
+        <Ionicons name="create" size={32} color="#39AA7D" />
+      </TouchableOpacity>
     </View>
   );
 
@@ -51,11 +58,11 @@ const TestResultsScreen = () => {
       </View>
       <View style={styles.infoContainer}>
         <Text style={styles.infoText}>
-          View test results for each user.
+          You can view and edit the resources added by your institution.
         </Text>
       </View>
       <FlatList
-        data={testResults}
+        data={resources}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.list}
@@ -137,21 +144,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: 'Urbanist-Bold',
   },
-  id: {
+  date: {
     fontSize: 14,
     color: '#888',
     fontFamily: 'Urbanist-Regular',
   },
-  resultPositive: {
-    fontSize: 16,
-    color: 'red',
-    fontFamily: 'Urbanist-Bold',
-  },
-  resultNegative: {
-    fontSize: 16,
-    color: 'green',
-    fontFamily: 'Urbanist-Bold',
-  },
 });
 
-export default TestResultsScreen;
+export default ViewResourcesScreen;

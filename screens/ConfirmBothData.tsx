@@ -62,7 +62,7 @@ const ConfirmBothDataScreen = () => {
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#66D19E" />
+        <ActivityIndicator size="80" color="#66D19E" />
       </View>
     );
   }

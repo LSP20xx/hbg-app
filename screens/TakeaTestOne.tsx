@@ -3,15 +3,19 @@ import { StyleSheet, Text, View, Animated } from 'react-native';
 import { Camera, useCameraDevices } from 'react-native-vision-camera';
 import ScreenWrapper from '../components/ScreenWrapper';
 import { useNavigation } from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectUserId } from '../redux/selectors/userSelectors';
+import { createTest } from '../redux/slices/testSlice';
 
 const TakeaTestOneScreen: React.FC = () => {
   const [hasPermission, setHasPermission] = useState(false);
-  const [verifying, setVerifying] = useState(false);
-  const [ready, setReady] = useState(false);
   const devices = useCameraDevices();
   const device = devices.find((d) => d.position === 'back');
-  const ovalAnim = useRef(new Animated.Value(1.5)).current; // Tamaño inicial más grande
+  const dispatch = useDispatch();
+  const userId = useSelector(selectUserId);
   const navigation = useNavigation();
+  const ovalAnim = useRef(new Animated.Value(1.5)).current; // Tamaño inicial más grande
+
   const handleConfirmPress = () => {
     navigation.navigate('TakeaTestTwo');
   };
@@ -26,26 +30,16 @@ const TakeaTestOneScreen: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    // Simular la detección del rostro
-    // setTimeout(() => {
-    //   setVerifying(true);
-    //   Animated.spring(ovalAnim, {
-    //     toValue: 1, // Reducir tamaño cuando se detecta el rostro
-    //     useNativeDriver: true,
-    //   }).start();
-
-    //   setTimeout(() => {
-    //     setVerifying(false);
-    //     setReady(true);
-    //     Animated.spring(ovalAnim, {
-    //       toValue: 0.7, // Ajustar tamaño después de la verificación
-    //       useNativeDriver: true,
-    //     }).start();
-    //   //  handleConfirmPress();
-    //     // Aquí puedes añadir lógica adicional después del tiempo de verificación
-    //   }, 3000); // 3 segundos de verificación
-    // }, 2000); // Simular la detección del rostro después de 2 segundos
-  }, []);
+    if (userId) {
+      const newTest = {
+        userID: userId,
+        testPhoto1: 'path/to/photo1.jpg',
+        testPhoto2: 'path/to/photo2.jpg', // Reemplaza con el path real de la foto
+        testResult: 'negative', // Puedes cambiarlo a 'SCD', 'trait', o 'negative'
+      };
+      dispatch(createTest(newTest));
+    }
+  }, [dispatch, userId]);
 
   if (!device) {
     return <Text>Loading...</Text>;
@@ -55,7 +49,6 @@ const TakeaTestOneScreen: React.FC = () => {
     return <Text>No access to camera</Text>;
   }
 
- 
   return (
     <ScreenWrapper
       headerTitle={'Take first photo'}
@@ -68,22 +61,13 @@ const TakeaTestOneScreen: React.FC = () => {
       <Text style={styles.description}>
         Ensure the object is fully visible and well-lit
       </Text>
-      <View style={{
-        width: "100%"
-      }}>
-      <Camera
-        style={{ height: "100%", width: "100%" }}
-        device={device}
-        isActive={true}
-      />
+      <View style={{ width: '100%' }}>
+        <Camera
+          style={{ height: '100%', width: '100%' }}
+          device={device}
+          isActive={true}
+        />
       </View>
-    
-      {/* <View style={styles.overlay}>
-        <Animated.View style={[styles.faceShape, { transform: [{ scale: ovalAnim }] }]} />
-        {verifying && <Text style={styles.verifyingText}>Verifying face...</Text>}
-        {ready && <Text style={styles.verifyingText}>Verified!</Text>}
-
-      </View> */}
     </ScreenWrapper>
   );
 };
@@ -123,7 +107,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     position: 'absolute',
     bottom: 100,
-    fontFamily: "Urbanist-Medium"
+    fontFamily: 'Urbanist-Medium',
   },
 });
 

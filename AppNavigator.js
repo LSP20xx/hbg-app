@@ -31,6 +31,7 @@ import ParentalConsent2Screen from './screens/ParentalConsent2';
 import IdParentAndChildPhotoScreen from './screens/IdParentAndChildPhoto';
 import ConfirmBothDataScreen from './screens/ConfirmBothData';
 import FaceRecognition2Screen from './screens/FaceRecognition2';
+import ViewResourcesScreen from './screens/ViewResources';
 const Stack = createStackNavigator();
 const AuthStack = createStackNavigator();
 const VerificationStack = createStackNavigator();
@@ -134,6 +135,10 @@ function AppNavigator() {
   <Stack.Screen
         name="FaceRecognition2"
         component={FaceRecognition2Screen}
+      />
+        <Stack.Screen
+        name="ViewResources"
+        component={ViewResourcesScreen}
       />
       </Stack.Navigator>
     </NavigationContainer>
